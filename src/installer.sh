@@ -7,12 +7,12 @@ if [[ $1 == partition ]]; then
     DISK='/dev/sda'
     echo -e "o\nw\n" | fdisk "${DISK}"
     echo -e "n\np\n1\n\n\nw\n" | fdisk "${DISK}"
-    mkfs.ext4 /dev/sda1
+    mkfs.btrfs /dev/sda1
 elif [[ $1 == mount ]]; then
     mount /dev/sda1 /mnt
 elif [[ $1 == bootstrap ]]; then
-    pacstrap -K /mnt base linux
-    sudo timedatectl set-timezone America/Los_Angeles
+    pacstrap -K /mnt base linux-lts
+    sudo timedatectl set-timezone "${2:-America/Los_Angeles}"
     sudo timedatectl set-ntp true
     arch-chroot /mnt /bin/bash -c "echo hobbylinux > /etc/hostname"
     arch-chroot /mnt /bin/bash -c "pacman-key --init && pacman-key --populate"
@@ -23,15 +23,14 @@ elif [[ $1 == bootstrap ]]; then
     arch-chroot /mnt /bin/bash -c "pacman --noconfirm -Sy nano sudo fish"
     arch-chroot /mnt /bin/bash -c "sed -i 's/# Misc options/ILoveCandy/' /etc/pacman.conf"
     arch-chroot /mnt /bin/bash -c "sed -i 's/Arch Linux/Hobby Linux/' /etc/os-release"
+    arch-chroot /mnt /bin/bash -c "sed -i 's/Arch Linux/Hobby Linux/' /usr/lib/os-release"
     cp /etc/systemd/network/* /mnt/etc/systemd/network/
     arch-chroot /mnt /bin/bash -c "systemctl enable systemd-resolved && systemctl enable systemd-networkd"
     echo 'done bootstraping.'
 elif [[ $1 == desktop ]]; then
-    arch-chroot /mnt /bin/bash -c "pacman --noconfirm -S htop sddm mate mate-extra pipewire-audio pipewire-pulse"
-    arch-chroot /mnt /bin/bash -c "systemctl enable sddm"
-    arch-chroot /mnt /bin/bash -c "pacman -S --needed git base-devel"
-    # yay_install_file='su hobby -c
-    # "git clone https://aur.archlinux.org/yay-bin.git /tmp/yay-build-dir && cd /tmp/yay-build-dir"'
+    # pipewire-audio pipewire-pulse mate mate-extra
+    arch-chroot /mnt /bin/bash -c "pacman --noconfirm -S htop lightdm lightdm-gtk-greeter xterm"
+    arch-chroot /mnt /bin/bash -c "systemctl enable lightdm" 
 elif [[ $1 == adduser ]]; then
     mkdir -p "/mnt/$BUILD_DIR"
     add_user_file='USER_NAME=hobby
