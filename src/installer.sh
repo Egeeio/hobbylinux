@@ -2,6 +2,7 @@
 # shellcheck disable=SC2016
 set -e
 ME='installer'
+BUILD_DIR='hobby_build_dir'
 if [[ $1 == partition ]]; then
     DISK='/dev/sda'
     echo -e "o\nw\n" | fdisk "${DISK}"
@@ -29,19 +30,20 @@ elif [[ $1 == desktop ]]; then
     arch-chroot /mnt /bin/bash -c "pacman --noconfirm -S htop sddm mate mate-extra pipewire-audio pipewire-pulse"
     arch-chroot /mnt /bin/bash -c "systemctl enable sddm"
     arch-chroot /mnt /bin/bash -c "pacman -S --needed git base-devel"
-yay_install_file='su hobby -c
-"git clone git clone https://aur.archlinux.org/yay-bin.git /tmp/yay-build-dir && cd /tmp/yay-build-dir"'
+    # yay_install_file='su hobby -c
+    # "git clone https://aur.archlinux.org/yay-bin.git /tmp/yay-build-dir && cd /tmp/yay-build-dir"'
 elif [[ $1 == adduser ]]; then
-add_user_file='USER_NAME=hobby
-USER_PASSWORD=hobby
-useradd -m -s /bin/fish ${USER_NAME}
-echo -e "${USER_PASSWORD}\n${USER_PASSWORD}" | passwd ${USER_NAME}
-usermod -aG adm ${USER_NAME}
-echo "${USER_NAME} ALL=(ALL) NOPASSWD:ALL" > "/etc/sudoers.d/${USER_NAME}"'
-echo "$add_user_file" > /mnt/add_user.sh
-chmod +x /mnt/add_user.sh
-arch-chroot /mnt /bin/bash -c "/add_user.sh"
-arch-chroot /mnt /bin/bash -c "rm /add_user.sh"
+    mkdir -p "/mnt/$BUILD_DIR"
+    add_user_file='USER_NAME=hobby
+    USER_PASSWORD=hobby
+    useradd -m -s /bin/fish ${USER_NAME}
+    echo -e "${USER_PASSWORD}\n${USER_PASSWORD}" | passwd ${USER_NAME}
+    usermod -aG adm ${USER_NAME}
+    echo "${USER_NAME} ALL=(ALL) NOPASSWD:ALL" > "/etc/sudoers.d/${USER_NAME}"'
+    echo "$add_user_file" > "/mnt/$BUILD_DIR/add_user.sh"
+    chmod +x "/mnt/$BUILD_DIR/add_user.sh"
+    arch-chroot /mnt /bin/bash -c "/$BUILD_DIR/add_user.sh"
+    arch-chroot /mnt /bin/bash -c "rm /$BUILD_DIR/add_user.sh"
 elif [[ $1 == install ]]; then
     "./${ME}" partition
     "./${ME}" mount
