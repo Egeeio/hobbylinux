@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # shellcheck disable=SC2016
 set -e
-ME='hobbylinuxinstaller'
+ME='installer'
 if [[ $1 == partition ]]; then
     DISK='/dev/sda'
     echo -e "o\nw\n" | fdisk "${DISK}"
@@ -19,33 +19,35 @@ elif [[ $1 == bootstrap ]]; then
     arch-chroot /mnt /bin/bash -c "pacman --noconfirm -Sy syslinux"
     arch-chroot /mnt /bin/bash -c "syslinux-install_update -i -m -a"
     arch-chroot /mnt /bin/bash -c "sed -i 's/sda3/sda1/' /boot/syslinux/syslinux.cfg"
-    arch-chroot /mnt /bin/bash -c "pacman --noconfirm -Sy nano htop sudo"
+    arch-chroot /mnt /bin/bash -c "pacman --noconfirm -Sy nano sudo fish"
     arch-chroot /mnt /bin/bash -c "sed -i 's/# Misc options/ILoveCandy/' /etc/pacman.conf"
     arch-chroot /mnt /bin/bash -c "sed -i 's/Arch Linux/Hobby Linux/' /etc/os-release"
-    arch-chroot /mnt /bin/bash -c "pacman --noconfirm -Sy sddm mate mate-extra"
-    arch-chroot /mnt /bin/bash -c "systemctl enable sddm"
     cp /etc/systemd/network/* /mnt/etc/systemd/network/
     arch-chroot /mnt /bin/bash -c "systemctl enable systemd-resolved && systemctl enable systemd-networkd"
     echo 'done bootstraping.'
 elif [[ $1 == desktop ]]; then
-    arch-chroot /mnt /bin/bash -c "pacman --noconfirm -S pipewire-audio"
-    # arch-chroot /mnt /bin/bash -c "pacman -S --needed git base-devel && git clone https://aur.archlinux.org/yay-bin.git && cd yay-bin && makepkg -si"
+    arch-chroot /mnt /bin/bash -c "pacman --noconfirm -S htop sddm mate mate-extra pipewire-audio pipewire-pulse"
+    arch-chroot /mnt /bin/bash -c "systemctl enable sddm"
+    arch-chroot /mnt /bin/bash -c "pacman -S --needed git base-devel"
+yay_install_file='su hobby -c
+"git clone git clone https://aur.archlinux.org/yay-bin.git /tmp/yay-build-dir && cd /tmp/yay-build-dir"'
 elif [[ $1 == adduser ]]; then
 add_user_file='USER_NAME=hobby
 USER_PASSWORD=hobby
-useradd -m -s /bin/bash ${USER_NAME}
+useradd -m -s /bin/fish ${USER_NAME}
 echo -e "${USER_PASSWORD}\n${USER_PASSWORD}" | passwd ${USER_NAME}
 usermod -aG adm ${USER_NAME}
-echo "${USER_NAME} ALL=(ALL:ALL) ALL" > "/etc/sudoers.d/${USER_NAME}"'
+echo "${USER_NAME} ALL=(ALL) NOPASSWD:ALL" > "/etc/sudoers.d/${USER_NAME}"'
 echo "$add_user_file" > /mnt/add_user.sh
 chmod +x /mnt/add_user.sh
 arch-chroot /mnt /bin/bash -c "/add_user.sh"
 arch-chroot /mnt /bin/bash -c "rm /add_user.sh"
 elif [[ $1 == install ]]; then
-    "./${ME}.sh" partition
-    "./${ME}.sh" mount
-    "./${ME}.sh" bootstrap
-    "./${ME}.sh" adduser
+    "./${ME}" partition
+    "./${ME}" mount
+    "./${ME}" bootstrap
+    "./${ME}" desktop
+    "./${ME}" adduser
     echo 'Install Complete.'
 else
     echo "Available options:"
@@ -56,5 +58,5 @@ else
     echo "  install: installs hobby linux onto the system"
     echo ""
     echo "Example usage:"
-    echo "./${ME}.sh install"
+    echo "./${ME} install"
 fi
