@@ -11,7 +11,7 @@ if [[ $1 == partition ]]; then
 elif [[ $1 == mount ]]; then
     mount /dev/sda1 /mnt
 elif [[ $1 == bootstrap ]]; then
-    pacstrap -K /mnt base linux-lts
+    pacstrap -K /mnt base linux-lts btrfs-progs
     sudo timedatectl set-timezone "${2:-America/Los_Angeles}"
     sudo timedatectl set-ntp true
     arch-chroot /mnt /bin/bash -c "echo hobbylinux > /etc/hostname"
@@ -22,13 +22,15 @@ elif [[ $1 == bootstrap ]]; then
     arch-chroot /mnt /bin/bash -c "sed -i 's/sda3/sda1/' /boot/syslinux/syslinux.cfg"
     arch-chroot /mnt /bin/bash -c "pacman --noconfirm -Sy nano sudo fish"
     arch-chroot /mnt /bin/bash -c "sed -i 's/# Misc options/ILoveCandy/' /etc/pacman.conf"
+    arch-chroot /mnt /bin/bash -c "sed -i 's/vmlinuz-linux/vmlinuz-linux-lts/' /boot/syslinux/syslinux.cfg"
+    arch-chroot /mnt /bin/bash -c "sed -i 's/initramfs-linux/initramfs-linux-lts/' /boot/syslinux/syslinux.cfg"
+    arch-chroot /mnt /bin/bash -c "sed -i 's/Arch Linux/Hobby Linux/' /boot/syslinux/syslinux.cfg"
     arch-chroot /mnt /bin/bash -c "sed -i 's/Arch Linux/Hobby Linux/' /etc/os-release"
     arch-chroot /mnt /bin/bash -c "sed -i 's/Arch Linux/Hobby Linux/' /usr/lib/os-release"
     cp /etc/systemd/network/* /mnt/etc/systemd/network/
     arch-chroot /mnt /bin/bash -c "systemctl enable systemd-resolved && systemctl enable systemd-networkd"
     echo 'done bootstraping.'
 elif [[ $1 == desktop ]]; then
-    # pipewire-audio pipewire-pulse mate mate-extra
     arch-chroot /mnt /bin/bash -c "pacman --noconfirm -S htop lightdm lightdm-gtk-greeter xterm"
     arch-chroot /mnt /bin/bash -c "systemctl enable lightdm" 
 elif [[ $1 == adduser ]]; then
