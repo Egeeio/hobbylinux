@@ -31,7 +31,7 @@ elif [[ $1 == bootstrap ]]; then
     arch-chroot /mnt /bin/bash -c "systemctl enable systemd-resolved && systemctl enable systemd-networkd"
     echo 'done bootstraping.'
 elif [[ $1 == desktop ]]; then
-    arch-chroot /mnt /bin/bash -c "pacman --noconfirm -S htop lightdm lightdm-gtk-greeter xterm"
+    arch-chroot /mnt /bin/bash -c "pacman --noconfirm -S htop lightdm lightdm-gtk-greeter mate mate-extra"
     arch-chroot /mnt /bin/bash -c "systemctl enable lightdm" 
 elif [[ $1 == adduser ]]; then
     mkdir -p "/mnt/$BUILD_DIR"
