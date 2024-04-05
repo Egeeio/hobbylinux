@@ -54,7 +54,7 @@ elif [[ $1 == install ]]; then
     echo 'Install Complete.'
 else
     echo "Available options:"
-    echo "  partition: partition the drive and format it with ext4"
+    echo "  partition: partition the drive and format it with btrfs"
     echo "  mount: mounts the drive under /mnt"
     echo "  bootstrap: uses arch-chroot to bootstrap the arch install"
     echo "  adduser: adds user to log in with"
