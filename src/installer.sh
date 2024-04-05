@@ -2,7 +2,6 @@
 # shellcheck disable=SC2016
 set -e
 ME='installer'
-BUILD_DIR='hobby_build_dir'
 if [[ $1 == partition ]]; then
     DISK='/dev/sda'
     echo -e "o\nw\n" | fdisk "${DISK}"
@@ -34,6 +33,7 @@ elif [[ $1 == desktop ]]; then
     arch-chroot /mnt /bin/bash -c "pacman --noconfirm -S htop lightdm lightdm-gtk-greeter mate mate-extra"
     arch-chroot /mnt /bin/bash -c "systemctl enable lightdm" 
 elif [[ $1 == adduser ]]; then
+    BUILD_DIR='hobby_build_dir'
     mkdir -p "/mnt/$BUILD_DIR"
     add_user_file='USER_NAME=hobby
     USER_PASSWORD=hobby
@@ -44,7 +44,7 @@ elif [[ $1 == adduser ]]; then
     echo "$add_user_file" > "/mnt/$BUILD_DIR/add_user.sh"
     chmod +x "/mnt/$BUILD_DIR/add_user.sh"
     arch-chroot /mnt /bin/bash -c "/$BUILD_DIR/add_user.sh"
-    arch-chroot /mnt /bin/bash -c "rm /$BUILD_DIR/add_user.sh"
+    arch-chroot /mnt /bin/bash -c "rm -rf /$BUILD_DIR"
 elif [[ $1 == install ]]; then
     "./${ME}" partition
     "./${ME}" mount
