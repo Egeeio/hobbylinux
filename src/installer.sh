@@ -18,7 +18,7 @@ elif [[ $1 == bootstrap ]]; then
     arch-chroot /mnt /bin/bash -c "pacman --noconfirm -Sy archlinux-keyring && pacman --noconfirm -Syu"
     arch-chroot /mnt /bin/bash -c "pacman --noconfirm -Sy syslinux"
     arch-chroot /mnt /bin/bash -c "syslinux-install_update -i -m -a"
-    # arch-chroot /mnt /bin/bash -c "sed -i 's/${DRIVE}3/${DRIVE}1/' /boot/syslinux/syslinux.cfg"
+    arch-chroot /mnt /bin/bash -c "sed -i 's/sda3/sda1/' /boot/syslinux/syslinux.cfg"
     arch-chroot /mnt /bin/bash -c "pacman --noconfirm -Sy nano sudo fish"
     arch-chroot /mnt /bin/bash -c "sed -i 's/# Misc options/ILoveCandy/' /etc/pacman.conf"
     arch-chroot /mnt /bin/bash -c "sed -i 's/vmlinuz-linux/vmlinuz-linux-lts/' /boot/syslinux/syslinux.cfg"
