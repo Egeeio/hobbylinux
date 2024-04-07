@@ -2,13 +2,13 @@
 # shellcheck disable=SC2016
 set -e
 ME='installer'
+DRIVE='vda'
 if [[ $1 == partition ]]; then
-    DISK='/dev/sda'
-    echo -e "o\nw\n" | fdisk "${DISK}"
-    echo -e "n\np\n1\n\n\nw\n" | fdisk "${DISK}"
-    mkfs.btrfs /dev/sda1
+    echo -e "o\nw\n" | fdisk "/dev/${DRIVE}"
+    echo -e "n\np\n1\n\n\nw\n" | fdisk "/dev/${DRIVE}"
+    mkfs.btrfs "/dev/${DRIVE}1"
 elif [[ $1 == mount ]]; then
-    mount /dev/sda1 /mnt
+    mount "/dev/${DRIVE}1" /mnt
 elif [[ $1 == bootstrap ]]; then
     pacstrap -K /mnt base linux-lts btrfs-progs
     sudo timedatectl set-timezone "${2:-America/Los_Angeles}"
@@ -18,7 +18,7 @@ elif [[ $1 == bootstrap ]]; then
     arch-chroot /mnt /bin/bash -c "pacman --noconfirm -Sy archlinux-keyring && pacman --noconfirm -Syu"
     arch-chroot /mnt /bin/bash -c "pacman --noconfirm -Sy syslinux"
     arch-chroot /mnt /bin/bash -c "syslinux-install_update -i -m -a"
-    arch-chroot /mnt /bin/bash -c "sed -i 's/sda3/sda1/' /boot/syslinux/syslinux.cfg"
+    # arch-chroot /mnt /bin/bash -c "sed -i 's/${DRIVE}3/${DRIVE}1/' /boot/syslinux/syslinux.cfg"
     arch-chroot /mnt /bin/bash -c "pacman --noconfirm -Sy nano sudo fish"
     arch-chroot /mnt /bin/bash -c "sed -i 's/# Misc options/ILoveCandy/' /etc/pacman.conf"
     arch-chroot /mnt /bin/bash -c "sed -i 's/vmlinuz-linux/vmlinuz-linux-lts/' /boot/syslinux/syslinux.cfg"
