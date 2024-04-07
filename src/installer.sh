@@ -35,13 +35,7 @@ elif [[ $1 == desktop ]]; then
 elif [[ $1 == adduser ]]; then
     BUILD_DIR='hobby_build_dir'
     mkdir -p "/mnt/$BUILD_DIR"
-    add_user_file='USER_NAME=hobby
-    USER_PASSWORD=hobby
-    useradd -m -s /bin/fish ${USER_NAME}
-    echo -e "${USER_PASSWORD}\n${USER_PASSWORD}" | passwd ${USER_NAME}
-    usermod -aG adm ${USER_NAME}
-    echo "${USER_NAME} ALL=(ALL) NOPASSWD:ALL" > "/etc/sudoers.d/${USER_NAME}"'
-    echo "$add_user_file" > "/mnt/$BUILD_DIR/add_user.sh"
+    cp scripts/add_user.sh "/mnt/$BUILD_DIR/add_user.sh"
     chmod +x "/mnt/$BUILD_DIR/add_user.sh"
     arch-chroot /mnt /bin/bash -c "/$BUILD_DIR/add_user.sh"
     arch-chroot /mnt /bin/bash -c "rm -rf /$BUILD_DIR"
