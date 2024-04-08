@@ -1,19 +1,20 @@
+require_relative 'helpers'
+
 def bootstrap()
   puts `pacstrap -K /mnt base linux-lts btrfs-progs`
-  puts `arch-chroot /mnt /bin/bash -c "echo hobbylinux > /etc/hostname"`
-  puts `arch-chroot /mnt /bin/bash -c "echo hobbylinux > /etc/hostname"`
-  puts `arch-chroot /mnt /bin/bash -c "pacman-key --init && pacman-key --populate"`
-  puts `arch-chroot /mnt /bin/bash -c "pacman --noconfirm -Sy archlinux-keyring && pacman --noconfirm -Syu"`
-  puts `arch-chroot /mnt /bin/bash -c "pacman --noconfirm -Sy syslinux"`
-  puts `arch-chroot /mnt /bin/bash -c "syslinux-install_update -i -m -a"`
-  puts `arch-chroot /mnt /bin/bash -c "sed -i 's/sda3/sda1/' /boot/syslinux/syslinux.cfg"`
-  puts `arch-chroot /mnt /bin/bash -c "pacman --noconfirm -Sy nano sudo fish"`
-  puts `arch-chroot /mnt /bin/bash -c "sed -i 's/# Misc options/ILoveCandy/' /etc/pacman.conf"`
-  puts `arch-chroot /mnt /bin/bash -c "sed -i 's/vmlinuz-linux/vmlinuz-linux-lts/' /boot/syslinux/syslinux.cfg"`
-  puts `arch-chroot /mnt /bin/bash -c "sed -i 's/initramfs-linux/initramfs-linux-lts/' /boot/syslinux/syslinux.cfg"`
-  puts `arch-chroot /mnt /bin/bash -c "sed -i 's/Arch Linux/Hobby Linux/' /boot/syslinux/syslinux.cfg"`
-  puts `arch-chroot /mnt /bin/bash -c "sed -i 's/Arch Linux/Hobby Linux/' /etc/os-release"`
-  puts `arch-chroot /mnt /bin/bash -c "sed -i 's/Arch Linux/Hobby Linux/' /usr/lib/os-release"`
-  puts `cp /etc/systemd/network/* /mnt/etc/systemd/network/`
-  puts `arch-chroot /mnt /bin/bash -c "systemctl enable systemd-resolved && systemctl enable systemd-networkd"`
+  arch_chroot_runner("echo hobbylinux > /etc/hostname")
+  arch_chroot_runner("pacman-key --init && pacman-key --populate")
+  arch_chroot_runner("pacman --noconfirm -Sy archlinux-keyring && pacman --noconfirm -Syu")
+  arch_chroot_runner("pacman --noconfirm -Sy syslinux")
+  arch_chroot_runner("syslinux-install_update -i -m -a")
+  arch_chroot_runner("sed -i 's/sda3/sda1/' /boot/syslinux/syslinux.cfg")
+  arch_chroot_runner("pacman --noconfirm -Sy nano sudo fish")
+  arch_chroot_runner("sed -i 's/# Misc options/ILoveCandy/' /etc/pacman.conf")
+  arch_chroot_runner("sed -i 's/vmlinuz-linux/vmlinuz-linux-lts/' /boot/syslinux/syslinux.cfg")
+  arch_chroot_runner("sed -i 's/initramfs-linux/initramfs-linux-lts/' /boot/syslinux/syslinux.cfg")
+  arch_chroot_runner("sed -i 's/Arch Linux/Hobby Linux/' /boot/syslinux/syslinux.cfg")
+  arch_chroot_runner("sed -i 's/Arch Linux/Hobby Linux/' /etc/os-release")
+  arch_chroot_runner("sed -i 's/Arch Linux/Hobby Linux/' /usr/lib/os-release")
+  arch_chroot_runner("cp /etc/systemd/network/* /mnt/etc/systemd/network/")
+  arch_chroot_runner("systemctl enable systemd-resolved && systemctl enable systemd-networkd")
 end
