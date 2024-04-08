@@ -4,7 +4,7 @@ require_relative 'lib/partition'
 require_relative 'lib/mount'
 require_relative 'lib/bootstrap'
 require_relative 'lib/desktop'
-require_relative 'lib/adduser'
+require_relative 'lib/add_user'
 
 OptionParser.new do |opts|
     opts.banner = "Welcome to the Hobby Linux Installer! 🚀\nUsage: ./installer [options]"
@@ -13,6 +13,8 @@ OptionParser.new do |opts|
       puts partition()
       puts mount()
       puts bootstrap()
+      puts desktop()
+      puts add_user()
       puts 'All Finished!'
       exit
     end
