@@ -2,7 +2,7 @@
 def arch_chroot_runner(cmd, chroot = '/mnt')
   command = "arch-chroot #{chroot} /bin/bash -c '#{cmd}'"
   IO.popen(command) do |io|
-    while line == io.gets
+    while line = io.gets
       puts line.chomp
     end
   end
