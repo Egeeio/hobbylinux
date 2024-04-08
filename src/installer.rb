@@ -10,9 +10,9 @@ OptionParser.new do |opts|
     opts.banner = "Welcome to the Hobby Linux Installer! 🚀\nUsage: ./installer [options]"
 
     opts.on("-i", "--install", "Install Hobby Linux") do |v|
-      p partition()
-      p mount()
-      p bootstrap()
+      puts partition()
+      puts mount()
+      puts bootstrap()
       puts 'All Finished!'
       exit
     end
