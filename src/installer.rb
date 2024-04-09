@@ -1,20 +1,24 @@
 #!/usr/bin/env ruby
 require 'optparse'
-
-options = {}
+require_relative 'lib/partition'
+require_relative 'lib/mount'
+require_relative 'lib/bootstrap'
+require_relative 'lib/desktop'
+require_relative 'lib/add_user'
 
 OptionParser.new do |opts|
     opts.banner = "Welcome to the Hobby Linux Installer! 🚀\nUsage: ./installer [options]"
-  
+
     opts.on("-i", "--install", "Install Hobby Linux") do |v|
-      puts "It's installed!"
+      puts partition()
+      puts mount()
+      puts bootstrap()
+      puts desktop()
+      puts add_user()
+      puts 'All Finished!'
       exit
     end
-  
-    opts.on("-d", "--debug", "Run in debug mode") do |v|
-      options[:debug] = v
-    end
-  
+
     opts.on("-h", "--help", "Show this help message") do
       puts opts
       exit

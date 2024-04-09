@@ -1,15 +1,30 @@
-def arch_chroot_runner
-    
+# frozen_string_literal: true
+
+def stream_cmd(cmd)
+  IO.popen(cmd) do |io|
+    while line = io.gets
+      puts line.chomp
+    end
+  end
 end
 
-def pacman_install
-    
+def arch_chroot_runner(cmd, chroot = '/mnt')
+  chroot_cmd = "arch-chroot #{chroot} /bin/bash -c '#{cmd}'"
+  stream_cmd(chroot_cmd)
 end
 
-def sed
-    
+def pacman_install(pkgs, update = nil)
+  cmd = 'pacman --noconfirm -S'
+  "#{cmd}y" if update
+  "#{cmd} #{pkgs}"
 end
 
-def activate_service
-    
+def sed(original, replacement, file_uri)
+  "sed -i 's/#{original}/#{replacement}/' #{file_uri}"
+end
+
+def activate_service(srv, start = nil)
+  cmd = 'systemctl enable'
+  "#{cmd} --now" if start
+  "#{cmd} #{srv}"
 end
