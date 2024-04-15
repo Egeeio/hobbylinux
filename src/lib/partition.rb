@@ -1,21 +1,19 @@
-DRIVE = 'sda'
-
-def partition()
-  create_partition_table()
-  create_partition()
-  create_file_system()
+def partition(disk)
+  create_partition_table(disk)
+  create_partition(disk)
+  create_file_system(disk)
 end
 
 private
 
-def create_partition_table()
-  `echo -e "o\nw\n" | fdisk "/dev/#{DRIVE}"`
+def create_partition_table(disk)
+  `echo -e "o\nw\n" | fdisk "/dev/#{disk}"`
 end
 
-def create_partition()
-  `echo -e "n\np\n1\n\n\nw\n" | fdisk "/dev/#{DRIVE}"`
+def create_partition(disk)
+  `echo -e "n\np\n1\n\n\nw\n" | fdisk "/dev/#{disk}"`
 end
 
-def create_file_system()
-  `mkfs.btrfs "/dev/#{DRIVE}1"`
+def create_file_system(disk)
+  `mkfs.btrfs "/dev/#{disk}1"`
 end
