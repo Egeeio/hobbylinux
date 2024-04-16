@@ -11,9 +11,9 @@ require 'optparse'
 OptionParser.new do |opts|
   opts.banner = "Welcome to the Hobby Linux Installer! 🚀\nUsage: ./installer.rb [options]"
 
-  opts.on('-i', '--install DISK,TIME_ZONE', 'Install Hobby Linux on DISK with TIME_ZONE') do |disk, time_zone|
+  opts.on('-i', '--install DISK', 'Install Hobby Linux on DISK') do |disk|
     partition(disk)
-    mount
+    mount(disk)
     bootstrap
     desktop
     add_user
