@@ -20,7 +20,7 @@ def pacman_install(pkgs, update = nil)
 end
 
 def sed(original, replacement, file_uri)
-  arch_chroot_runner("sed -i 's/#{original}/#{replacement}/' #{file_uri}")
+  puts `sed -i 's/#{original}/#{replacement}/' #{file_uri}`
 end
 
 def activate_service(srv, start = nil)
