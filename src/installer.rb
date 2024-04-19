@@ -9,8 +9,10 @@ require_relative 'lib/add_user'
 require 'optparse'
 
 OptionParser.new do |opts|
-  opts.banner = "Welcome to the Hobby Linux Installer! 🚀\nUsage: ./installer.rb [options]"
-  opts.on('-i', '--install DISK USER', 'Install Hobby Linux on DISK with USER') do |disk, user|
+  opts.banner = "Welcome to the Hobby Linux Installer! 🚀\nUsage: ./installer.rb [DISK],[USER]"
+  opts.on('-i DISK USER', Array, 'Install Hobby Linux on DISK with USER') do |args|
+    disk = args[0]
+    user = args[1] || 'hobby'
     partition(disk)
     mount(disk)
     bootstrap
