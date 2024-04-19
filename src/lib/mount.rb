@@ -1,6 +1,7 @@
-def mount(mount_point='/mnt', partition='/dev/sda1')
-  unless Dir.exist?(mount_point)
-    Dir.mkdir(mount_point)
-  end
-  `mount #{partition} #{mount_point}`
+# frozen_string_literal: true
+
+require_relative 'helpers'
+
+def mount(disk)
+  stream_cmd("mount /dev/#{disk}1 /mnt")
 end

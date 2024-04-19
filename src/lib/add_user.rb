@@ -1,4 +1,10 @@
+# frozen_string_literal: true
+require 'securerandom'
+require_relative 'helpers'
+
 def add_user(user_name='hobby')
+  passwd = SecureRandom.hex[-5..-1]
   puts `cp -f scripts/add_user.sh /mnt/root/add_user.sh`
-  puts `arch-chroot /mnt /bin/bash -c "/root/add_user.sh #{user_name}"`
+  arch_chroot_runner("/root/add_user.sh #{user_name} #{passwd}")
+  passwd
 end

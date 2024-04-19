@@ -1,4 +1,8 @@
-def desktop()
-  puts `arch-chroot /mnt /bin/bash -c "pacman --noconfirm -S htop lightdm lightdm-gtk-greeter mate mate-extra"`
-  puts `arch-chroot /mnt /bin/bash -c "systemctl enable lightdm"`
+# frozen_string_literal: true
+
+require_relative 'helpers'
+
+def desktop
+  pacman_install('htop lightdm lightdm-gtk-greeter mate mate-extra')
+  activate_service('lightdm')
 end

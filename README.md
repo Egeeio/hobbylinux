@@ -10,9 +10,9 @@ Here is where you will find tools and scripts pertaining to the installation and
 
 Hobby Linux Installer simply turns Arch Linux into Hobby Linux. It's effectively an Arch install script! It is designed to be used in a <u>live arch iso environment as root</u>.
 
-The installer is self-documenting; simply run `bin/installer --help` to see what it can do.
+The installer is self-documenting; simply run `src/installer.rb --help` to see what it can do.
 
-The most common usecase is a full install. Running `bin/installer install` will result in a barebones Hobby Linux system with the user & password as: `hobby`.
+The most common usecase is a full install. Running `bin/installer.rb install` will result in a barebones Hobby Linux system with the user & password as: `hobby`.
 
 ## Future Plans
 

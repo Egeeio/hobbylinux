@@ -16,15 +16,15 @@ end
 def pacman_install(pkgs, update = nil)
   cmd = 'pacman --noconfirm -S'
   "#{cmd}y" if update
-  "#{cmd} #{pkgs}"
+  arch_chroot_runner("#{cmd} #{pkgs}")
 end
 
 def sed(original, replacement, file_uri)
-  "sed -i 's/#{original}/#{replacement}/' #{file_uri}"
+  puts `sed -i 's/#{original}/#{replacement}/' #{file_uri}`
 end
 
 def activate_service(srv, start = nil)
   cmd = 'systemctl enable'
   "#{cmd} --now" if start
-  "#{cmd} #{srv}"
+  arch_chroot_runner("#{cmd} #{srv}")
 end
