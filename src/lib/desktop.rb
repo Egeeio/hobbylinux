@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'FileUtils'
+require 'fileutils'
 require_relative 'helpers'
 
 def desktop(user)
