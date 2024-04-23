@@ -18,7 +18,7 @@ OptionParser.new do |opts|
     bootstrap
     desktop(user)
     passwd = add_user(user)
-    puts "Installation Complete.\nReboot into Hobby Linux and log in as:\nUsername: #{user}\nTemporary Password: #{passwd}"
+    puts "Installation Complete.\nReboot into Hobby Linux and log in as:\nUsername: #{user}\One-time password: #{passwd}"
   end
 
   opts.on('-h', '--help', 'Show this help message') do
