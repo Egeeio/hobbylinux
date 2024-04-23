@@ -16,7 +16,7 @@ end
 
 def install_lightdm
   pacman_install('lightdm lightdm-slick-greeter')
-  sed('#greeter-session=example-gtk-gnome', 'greeter-session=lightdm-slick-greeter', '/etc/lightdm/lightdm.conf')
+  sed('#greeter-session=example-gtk-gnome', 'greeter-session=lightdm-slick-greeter', '/mnt/etc/lightdm/lightdm.conf')
   activate_service('lightdm')
 end
 
