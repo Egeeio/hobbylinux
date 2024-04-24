@@ -37,7 +37,7 @@ def configure_desktop(user)
   arch_chroot_runner("gsettings set org.mate.interface document-font-name 'Montserrat Medium 10'")
   arch_chroot_runner("gsettings set org.mate.interface font-name 'Montserrat Medium 10'")
   arch_chroot_runner("gsettings set org.mate.interface gtk-theme 'Arc'")
-  arch_chroot_runner("gsettings set org.mate.interface icon-name 'vintage'")
+  arch_chroot_runner("gsettings set org.mate.interface icon-theme 'vintage'")
   arch_chroot_runner("gsettings set org.mate.interface monospace-font-name 'Hack Bold 10'")
   # Marco
   arch_chroot_runner("gsettings set org.mate.Marco.general titlebar-font 'Montserrat Medium 10'")
