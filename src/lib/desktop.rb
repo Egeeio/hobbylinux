@@ -27,9 +27,9 @@ end
 def configure_desktop(user)
   # Folders
   ['.local/bin', 'Documents', 'Downloads', 'Music', 'Pictures', 'Projects', 'Public', 'Videos'].each do |folder|
-    stream_cmd("mkdir -p /home/#{user}/#{folder}")
+    stream_cmd("mkdir -p /mnt/home/#{user}/#{folder}")
   end
-  stream_cmd("ln -s /home/#{user}/.local/bin /home/#{user}/Projects/bin")
+  arch_chroot_runner("ln -s /home/#{user}/.local/bin /home/#{user}/Projects/bin")
   # Panel
   FileUtils.mv('files/hobbylinux.layout', '/mnt/usr/share/mate-panel/layouts')
   arch_chroot_runner("gsettings set org.mate.panel.general default-layout 'hobbylinux'")
