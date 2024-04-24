@@ -21,7 +21,7 @@ def install_lightdm
 end
 
 def install_desktop
-  pacman_install('mate mate-extra otf-montserrat deepin-icon-theme arc-gtk-theme pipewire')
+  pacman_install('mate mate-extra otf-montserrat deepin-icon-theme arc-gtk-theme pipewire network-manager-applet')
 end
 
 def configure_desktop(user)
