@@ -30,6 +30,7 @@ def configure_desktop(user)
     stream_cmd("mkdir -p /mnt/home/#{user}/#{folder}")
   end
   arch_chroot_runner("ln -s /home/#{user}/.local/bin /home/#{user}/Projects/bin")
+  arch_chroot_runner("chown -R #{user}:#{user} /home/#{user}")
   # Panel
   FileUtils.mv('files/hobbylinux.layout', '/mnt/usr/share/mate-panel/layouts')
   arch_chroot_runner("gsettings set org.mate.panel default-layout 'hobbylinux'")
