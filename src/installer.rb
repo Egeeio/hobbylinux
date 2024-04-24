@@ -20,7 +20,7 @@ OptionParser.new do |opts|
   end
   disk ||= 'sda'
   user ||= 'hobby'
-  puts "Installing to #{sda} with user #{user}."
+  puts "Installing to #{disk} with user #{user}."
   puts "Install will begin in 5 seconds..."
   sleep 5
   partition(disk)
