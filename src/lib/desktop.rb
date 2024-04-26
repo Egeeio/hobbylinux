@@ -24,26 +24,26 @@ def install_desktop
   pacman_install('mate mate-extra otf-montserrat deepin-icon-theme arc-gtk-theme pipewire network-manager-applet')
 end
 
-def configure_desktop(user)
+def configure_desktop(user_name)
   # Folders
   ['.local/bin', 'Documents', 'Downloads', 'Music', 'Pictures', 'Projects', 'Public', 'Videos'].each do |folder|
-    stream_cmd("mkdir -p /mnt/home/#{user}/#{folder}")
+    stream_cmd("mkdir -p /mnt/home/#{user_name}/#{folder}")
   end
-  arch_chroot_runner("ln -s /home/#{user}/.local/bin /home/#{user}/Projects/bin")
-  arch_chroot_runner("chown -R #{user}:#{user} /home/#{user}")
+  arch_chroot_runner("ln -s /home/#{user_name}/.local/bin /home/#{user_name}/Projects/bin", user_name)
+  # arch_chroot_runner("chown -R #{user_name}:#{user_name} /home/#{user_name}")
   # Panel
   FileUtils.mv('files/hobbylinux.layout', '/mnt/usr/share/mate-panel/layouts')
-  arch_chroot_runner("dbus-launch --exit-with-session gsettings set org.mate.panel default-layout 'hobbylinux'")
+  arch_chroot_runner("dbus-launch --exit-with-session gsettings set org.mate.panel default-layout 'hobbylinux'", user_name)
   # Interface
-  arch_chroot_runner("dbus-launch --exit-with-session gsettings set org.mate.interface document-font-name 'Montserrat Medium 10'")
-  arch_chroot_runner("dbus-launch --exit-with-session gsettings set org.mate.interface font-name 'Montserrat Medium 10'")
-  arch_chroot_runner("dbus-launch --exit-with-session gsettings set org.mate.interface gtk-theme 'Arc'")
-  arch_chroot_runner("dbus-launch --exit-with-session gsettings set org.mate.interface icon-theme 'vintage'")
-  arch_chroot_runner("dbus-launch --exit-with-session gsettings set org.mate.interface monospace-font-name 'Hack Bold 10'")
+  arch_chroot_runner("dbus-launch --exit-with-session gsettings set org.mate.interface document-font-name 'Montserrat Medium 10'", user_name)
+  arch_chroot_runner("dbus-launch --exit-with-session gsettings set org.mate.interface font-name 'Montserrat Medium 10'", user_name)
+  arch_chroot_runner("dbus-launch --exit-with-session gsettings set org.mate.interface gtk-theme 'Arc'", user_name)
+  arch_chroot_runner("dbus-launch --exit-with-session gsettings set org.mate.interface icon-theme 'vintage'", user_name)
+  arch_chroot_runner("dbus-launch --exit-with-session gsettings set org.mate.interface monospace-font-name 'Hack Bold 10'", user_name)
   # Marco
-  arch_chroot_runner("dbus-launch --exit-with-session gsettings set org.mate.Marco.general titlebar-font 'Montserrat Medium 10'")
-  arch_chroot_runner("dbus-launch --exit-with-session gsettings set org.mate.Marco.general theme 'Arc'")
-  arch_chroot_runner("dbus-launch --exit-with-session gsettings set org.mate.Marco.general center-new-windows true")
+  arch_chroot_runner("dbus-launch --exit-with-session gsettings set org.mate.Marco.general titlebar-font 'Montserrat Medium 10'", user_name)
+  arch_chroot_runner("dbus-launch --exit-with-session gsettings set org.mate.Marco.general theme 'Arc'", user_name)
+  arch_chroot_runner('dbus-launch --exit-with-session gsettings set org.mate.Marco.general center-new-windows true', user_name)
   # Caja
-  arch_chroot_runner("dbus-launch --exit-with-session gsettings set org.mate.caja.desktop font 'Montserrat Medium 10'")
+  arch_chroot_runner("dbus-launch --exit-with-session gsettings set org.mate.caja.desktop font 'Montserrat Medium 10'", user_name)
 end
