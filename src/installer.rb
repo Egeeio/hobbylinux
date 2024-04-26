@@ -15,18 +15,16 @@ OptionParser.new do |opts|
     exit
   end
   opts.on('-i DISK USER', Array, 'Install Hobby Linux on DISK with USER') do |args|
-    disk = args[0]
-    user = args[1]
+    disk = args[0] || 'sda'
+    user = args[1] || 'hobby'
+    puts "Installing to #{disk} with user #{user}."
+    puts "Install will begin in 5 seconds..."
+    sleep 5
+    partition(disk)
+    mount(disk)
+    bootstrap
+    passwd = add_user(user)
+    desktop(user)
+    puts "Installation Complete.\nReboot into Hobby Linux and log in as:\nUsername: #{user}\nOne-time password: #{passwd}"
   end
-  disk ||= 'sda'
-  user ||= 'hobby'
-  puts "Installing to #{disk} with user #{user}."
-  puts "Install will begin in 5 seconds..."
-  sleep 5
-  partition(disk)
-  mount(disk)
-  bootstrap
-  passwd = add_user(user)
-  desktop(user)
-  puts "Installation Complete.\nReboot into Hobby Linux and log in as:\nUsername: #{user}\nOne-time password: #{passwd}"
 end.parse!
