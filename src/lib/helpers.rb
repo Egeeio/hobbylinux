@@ -8,8 +8,8 @@ def stream_cmd(cmd)
   end
 end
 
-def arch_chroot_runner(cmd, chroot = '/mnt')
-  chroot_cmd = "arch-chroot #{chroot} /bin/bash -c '#{cmd}'"
+def arch_chroot_runner(cmd, user = 'root' chroot = '/mnt')
+  chroot_cmd = "arch-chroot #{chroot} /usr/bin/su -p #{user} -c '#{cmd}'"
   stream_cmd(chroot_cmd)
 end
 
