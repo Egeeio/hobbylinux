@@ -7,6 +7,7 @@ def desktop(user)
   install_coreutils
   install_lightdm
   install_desktop
+  install_paru(user)
   configure_desktop(user)
 end
 
@@ -29,25 +30,10 @@ def configure_desktop(user_name)
   ['.local/bin', 'Documents', 'Downloads', 'Music', 'Pictures', 'Projects', 'Public', 'Videos'].each do |folder|
     arch_chroot_runner("mkdir -p /home/#{user_name}/#{folder}", user_name)
   end
-  arch_chroot_runner("ln -s /home/#{user_name}/.local/bin /home/#{user_name}/Projects", user_name)
 
-  # Strange Shim for Dbus to work in a chroot
-  arch_chroot_runner("mkdir -P /run/user/0/dconf")
-  arch_chroot_runner("chown -R #{user_name}:#{user_name} /run/user/0")
+  # arch_chroot_runner("ln -s /home/#{user_name}/.local/bin /home/#{user_name}/Projects", user_name)
 
-  # Panel
   FileUtils.cp('files/hobbylinux.layout', '/mnt/usr/share/mate-panel/layouts')
-  arch_chroot_runner("dbus-launch --exit-with-session gsettings set org.mate.panel default-layout 'hobbylinux'", user_name)
-  # Interface
-  arch_chroot_runner("dbus-launch --exit-with-session gsettings set org.mate.interface document-font-name 'Montserrat Medium 10'", user_name)
-  arch_chroot_runner("dbus-launch --exit-with-session gsettings set org.mate.interface font-name 'Montserrat Medium 10'", user_name)
-  arch_chroot_runner("dbus-launch --exit-with-session gsettings set org.mate.interface gtk-theme 'Arc'", user_name)
-  arch_chroot_runner("dbus-launch --exit-with-session gsettings set org.mate.interface icon-theme 'vintage'", user_name)
-  arch_chroot_runner("dbus-launch --exit-with-session gsettings set org.mate.interface monospace-font-name 'Hack Bold 10'", user_name)
-  # Marco
-  arch_chroot_runner("dbus-launch --exit-with-session gsettings set org.mate.Marco.general titlebar-font 'Montserrat Medium 10'", user_name)
-  arch_chroot_runner("dbus-launch --exit-with-session gsettings set org.mate.Marco.general theme 'Arc'", user_name)
-  arch_chroot_runner('dbus-launch --exit-with-session gsettings set org.mate.Marco.general center-new-windows true', user_name)
-  # Caja
-  arch_chroot_runner("dbus-launch --exit-with-session gsettings set org.mate.caja.desktop font 'Montserrat Medium 10'", user_name)
+  FileUtils.cp('scripts/configure_desktop.sh', '/mnt/root/configure_desktop.sh')
+  arch_chroot_runner("/root/configure_desktop.sh #{user_name}")
 end
