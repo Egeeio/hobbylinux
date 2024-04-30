@@ -30,6 +30,11 @@ def configure_desktop(user_name)
     arch_chroot_runner("mkdir -p /home/#{user_name}/#{folder}", user_name)
   end
   arch_chroot_runner("ln -s /home/#{user_name}/.local/bin /home/#{user_name}/Projects", user_name)
+
+  # Strange Shim for Dbus to work in a chroot
+  arch_chroot_runner("mkdir -P /run/user/0/dconf")
+  arch_chroot_runner("chown -R #{user_name}:#{user_name} /run/user/0")
+
   # Panel
   FileUtils.cp('files/hobbylinux.layout', '/mnt/usr/share/mate-panel/layouts')
   arch_chroot_runner("dbus-launch --exit-with-session gsettings set org.mate.panel default-layout 'hobbylinux'", user_name)
