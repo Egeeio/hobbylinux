@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-mkdir -p /run/user/0/dconf
+export XDG_RUNTIME_DIR="$HOME/Documents"
 dbus-launch --exit-with-session gsettings set org.mate.panel default-layout 'hobbylinux'
 dbus-launch --exit-with-session gsettings set org.mate.interface document-font-name 'Montserrat Medium 10'
 dbus-launch --exit-with-session gsettings set org.mate.interface font-name 'Montserrat Medium 10'
