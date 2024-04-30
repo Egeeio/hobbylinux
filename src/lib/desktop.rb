@@ -34,6 +34,6 @@ def configure_desktop(user_name)
   # arch_chroot_runner("ln -s /home/#{user_name}/.local/bin /home/#{user_name}/Projects", user_name)
 
   FileUtils.cp('files/hobbylinux.layout', '/mnt/usr/share/mate-panel/layouts')
-  FileUtils.cp('scripts/configure_desktop.sh', '/mnt/root/configure_desktop.sh')
-  arch_chroot_runner("/root/configure_desktop.sh #{user_name}")
+  FileUtils.cp('scripts/configure_desktop.sh', "/mnt/home/#{user_name}/configure_desktop.sh")
+  arch_chroot_runner("/home/#{user_name}/configure_desktop.sh #{user_name}")
 end
