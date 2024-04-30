@@ -29,9 +29,9 @@ def configure_desktop(user_name)
   ['.local/bin', 'Documents', 'Downloads', 'Music', 'Pictures', 'Projects', 'Public', 'Videos'].each do |folder|
     arch_chroot_runner("mkdir -p /home/#{user_name}/#{folder}", user_name)
   end
-  arch_chroot_runner("ln -s /home/#{user_name}/.local/bin /home/#{user_name}/Projects/bin", user_name)
+  arch_chroot_runner("ln -s /home/#{user_name}/.local/bin /home/#{user_name}/Projects", user_name)
   # Panel
-  FileUtils.mv('files/hobbylinux.layout', '/mnt/usr/share/mate-panel/layouts')
+  FileUtils.cp('files/hobbylinux.layout', '/mnt/usr/share/mate-panel/layouts')
   arch_chroot_runner("dbus-launch --exit-with-session gsettings set org.mate.panel default-layout 'hobbylinux'", user_name)
   # Interface
   arch_chroot_runner("dbus-launch --exit-with-session gsettings set org.mate.interface document-font-name 'Montserrat Medium 10'", user_name)
