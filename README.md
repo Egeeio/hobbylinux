@@ -1,21 +1,15 @@
-# Hobby Linux Installer
+![HobbyLinux](https://github.com/Hobby-Linux/.github/assets/6679968/5f151315-3678-4fa1-aeb4-ca000f5f0a85)
 
-Welcome to the Hobby Linux installer repository!
+**HobbyLinux. Make More.**
 
-Here is where you will find tools and scripts pertaining to the installation and overall development of Hobby Linux.
+HobbyLinux is a lightweight and easy-to-use GNU/Linux distribution designed to empower hobbyists!
 
-**Hobby Linux is in a pre-alpha state.** The tools in this repo are not meant to be used, operated, or otherwise run on a live system with production data.
+The goal of HobbyLinux is to provide a customizable operating system with tools and a user experience designed to maximize your productivity and minimize workflow inefficiencies.
 
-## Getting Started
+Currently in **alpha-development** stage,  HobbyLinux is a growing project with a focus on building a streamlined installer first, so that you can get working on your hobbies fast. Contributions are welcome!
 
-Hobby Linux Installer simply turns Arch Linux into Hobby Linux. It's effectively an Arch install script! It is designed to be used in a <u>live arch iso environment as root</u>.
+Follow HobbyLinux here:
 
-The installer is self-documenting; simply run `src/installer.rb --help` to see what it can do.
-
-The most common usecase is a full install. Running `bin/installer.rb install` will result in a barebones Hobby Linux system with the user & password as: `hobby`.
-
-## Future Plans
-
-The Hobby Linux Installer's sole purpose is to install a functional Linux system that is ready to take on any or all of your hobbies.
-
-At some point, the installer will be rewritten to accept input so that a user may install a system with their own user. This will also enable the creation of an gui-based installer.
+- Star or Follow on GitHub: https://github.com/Egeeio/hobbylinux
+- Join the Hobby Shop Discord: https://discord.com/servers/egee-s-hobby-shop-183740337976508416
+- Watch Egee's YouTube Channel: https://www.youtube.com/@Egeexyz
