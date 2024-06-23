@@ -7,12 +7,12 @@ def desktop(user)
   install_coreutils
   install_lightdm
   install_desktop
-  install_paru(user)
+  # install_paru(user)
   configure_desktop(user)
 end
 
 def install_coreutils
-  pacman_install('htop ruby git curl wget')
+  pacman_install('htop ruby git curl wget jq bc')
 end
 
 def install_lightdm
