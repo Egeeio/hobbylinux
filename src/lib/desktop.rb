@@ -22,6 +22,7 @@ def install_lightdm
 end
 
 def install_desktop
+  # pacman_install('htop lightdm lightdm-gtk-greeter gtk-theme-elementary elementary-icon-theme cinnamon')
   pacman_install('mate mate-extra otf-montserrat deepin-icon-theme arc-gtk-theme pipewire network-manager-applet')
 end
 
