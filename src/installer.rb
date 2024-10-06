@@ -24,6 +24,7 @@ OptionParser.new do |opts|
     partition(disk)
     mount(disk)
     bootstrap
+    bootloader
     passwd = add_user(user)
     desktop(user)
     puts "Installation Complete.\nReboot into Hobby Linux and log in as:\nUsername: #{user}\nOne-time password: #{passwd}"
