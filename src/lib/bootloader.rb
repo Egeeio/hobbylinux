@@ -4,6 +4,6 @@ require_relative 'helpers'
 
 def bootloader
   pacman_install('grub efibootmgr os-prober')
-  stream_cmd('grub-install /dev/sda') # TODO: Pass this in from installer.rb
-  stream_cmd('grub-mkconfig -o /boot/grub/grub.cfg')
+  arch_chroot_runner('grub-install /dev/sda') # TODO: Pass this in from installer.rb
+  arch_chroot_runner('grub-mkconfig -o /boot/grub/grub.cfg')
 end
