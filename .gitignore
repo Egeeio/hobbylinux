@@ -1,3 +1,6 @@
 .vendor/*
 scratch.rb
 test.sh
+.vscode
+stackscript.sh
+Kiwi/iso/build
