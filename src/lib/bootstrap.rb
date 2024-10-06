@@ -3,7 +3,7 @@
 require_relative 'helpers'
 
 def bootstrap
-  stream_cmd('pacstrap -K /mnt base linux-lts xfsprogs archlinux-keyring nano sudo fish neofetch')
+  stream_cmd('pacstrap -K /mnt base linux-lts xfsprogs btrfs-progs archlinux-keyring nano sudo fish neofetch')
   stream_cmd('echo hobbylinux > /mnt/etc/hostname')
   stream_cmd('cp -rf /etc/systemd/network/* /mnt/etc/systemd/network/')
   arch_chroot_runner('hwclock --systohc')
