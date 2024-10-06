@@ -22,13 +22,13 @@ def install_lightdm
 end
 
 def install_desktop
-  # pacman_install('htop lightdm lightdm-gtk-greeter gtk-theme-elementary elementary-icon-theme cinnamon')
-  pacman_install('mate mate-extra otf-montserrat deepin-icon-theme arc-gtk-theme pipewire network-manager-applet')
+  pacman_install('htop lightdm lightdm-gtk-greeter gtk-theme-elementary elementary-icon-theme otf-montserrat deepin-icon-theme arc-gtk-theme cinnamon')
+  # pacman_install('mate mate-extra otf-montserrat deepin-icon-theme arc-gtk-theme pipewire network-manager-applet')
 end
 
 def configure_desktop(user_name)
   # Folders
-  ['.local/bin', 'Documents', 'Downloads', 'Music', 'Pictures', 'Projects', 'Public', 'Videos'].each do |folder|
+  ['.local/bin', 'Documents', 'Downloads', 'Music', 'Pictures', 'Public', 'Videos'].each do |folder|
     arch_chroot_runner("mkdir -p /home/#{user_name}/#{folder}", user_name)
   end
 
