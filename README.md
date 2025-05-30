@@ -1,4 +1,4 @@
-![HobbyLinux](https://github.com/Hobby-Linux/.github/assets/6679968/5f151315-3678-4fa1-aeb4-ca000f5f0a85)
+![HobbyLinux](https://github.com/Egeeio/hobbylinux/blob/main/.github/HobbyLinuxLogofaceSmol.png)
 
 **HobbyLinux. Make More.**
 
