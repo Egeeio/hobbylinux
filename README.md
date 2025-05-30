@@ -10,6 +10,6 @@ HobbyLinux is currently on **indefinite hiatus**. It as a functional (albeit min
 
 Follow HobbyLinux here:
 
-⭐ Star or Follow on GitHub: https://github.com/Egeeio/hobbylinux
-📯 Join Egee's Discord: https://egee.io/discord/
-👀 Watch Egee's YouTube Channel: https://www.youtube.com/@Egeexyz
+- ⭐ Star or Follow on GitHub: https://github.com/Egeeio/hobbylinux
+- 📯 Join Egee's Discord: https://egee.io/discord/
+- 👀 Watch Egee's YouTube Channel: https://www.youtube.com/@Egeexyz
