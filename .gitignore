@@ -1,3 +1,5 @@
 .vscode
 stackscript.sh
 Kiwi/iso/build
+*.iso
+*.qcow2
