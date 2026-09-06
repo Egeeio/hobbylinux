@@ -1,0 +1,24 @@
+#!/bin/sh
+set -e
+
+lb config noauto \
+  --distribution testing \
+  --security false \
+  --updates false \
+  --parent-mirror-bootstrap "http://ftp.us.debian.org/debian/" \
+  --parent-mirror-chroot "http://ftp.us.debian.org/debian/" \
+  --mirror-bootstrap "http://ftp.us.debian.org/debian/" \
+  --mirror-chroot "http://ftp.us.debian.org/debian/" \
+  --mirror-binary "http://deb.debian.org/debian/" \
+  --archive-areas "main contrib non-free non-free-firmware" \
+  --bootloaders "grub-efi" \
+  --binary-images iso-hybrid \
+  --debian-installer none \
+  --iso-application "Hobby Linux Live" \
+  --iso-publisher "Hobby Linux <https://github.com/Egeeio/hobbylinux>" \
+  --iso-volume "hobbylinux" \
+  --memtest none \
+  --apt-indices false \
+  --firmware-chroot false \
+  --bootappend-live "boot=live components username=hobby user-fullname=Hobby hostname=hobbylinux autologin" \
+  "${@}"
