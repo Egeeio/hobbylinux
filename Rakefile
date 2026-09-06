@@ -16,12 +16,13 @@ namespace :iso do
     mkdir_p "#{ISO_DIR}/build"
 
     iso_dir = File.expand_path(ISO_DIR)
+    version = current_version
 
     sh 'docker pull debian:testing'
 
     sh <<~CMD
       docker run --rm --privileged \
-        --name hobbyiso-builder \
+        --name hobbylinux-builder \
         -e DEBIAN_FRONTEND=noninteractive \
         -v #{iso_dir}:/repo \
         debian:testing \
@@ -30,26 +31,28 @@ namespace :iso do
           cd /repo/build && \
           ln -snf ../auto auto && \
           ln -snf ../config config && \
-          lb config && \
+          lb config --image-name hobbylinux-#{version}-amd64 && \
           lb build 2>&1 | tee build.log && \
+          if [ -f live-image-amd64.hybrid.iso ]; then mv -f live-image-amd64.hybrid.iso hobbylinux-#{version}-amd64.iso; fi && \
+          if [ -f hobbylinux-#{version}-amd64.hybrid.iso ]; then mv -f hobbylinux-#{version}-amd64.hybrid.iso hobbylinux-#{version}-amd64.iso; fi && \
           chown -R #{Process.uid}:#{Process.gid} /repo/build"
     CMD
   end
 
   desc 'Clean ISO build artifacts'
   task :clean do
+    iso_dir = File.expand_path(ISO_DIR)
+    sh <<~CMD
+      docker run --rm --privileged \
+        --name hobbylinux-cleaner \
+        -v #{iso_dir}:/repo \
+        debian:testing \
+        bash -c "rm -rf /repo/build /repo/build.log /repo/*.iso"
+    CMD
     rm_rf "#{ISO_DIR}/build"
-
-    if Dir.exist?("#{ISO_DIR}/build")
-      iso_dir = File.expand_path(ISO_DIR)
-      sh <<~CMD
-        docker run --rm --privileged \
-          --name hobbyiso-cleaner \
-          -v #{iso_dir}:/repo \
-          debian:testing \
-          bash -c "rm -rf /repo/build"
-      CMD
-    end
+    rm_f "#{ISO_DIR}/build.log"
+    rm_f FileList["#{ISO_DIR}/*.iso"]
+    rm_f FileList["#{ISO_DIR}/build/*.iso"]
   end
 
   desc 'Clean and rebuild the ISO'
@@ -163,7 +166,7 @@ end
 
 desc 'Display current version'
 task :version do
-  puts "hobbyiso v#{current_version}"
+  puts "Hobby Linux v#{current_version}"
 end
 
 desc 'Increment the patch version (0.1.0 -> 0.1.1)'
