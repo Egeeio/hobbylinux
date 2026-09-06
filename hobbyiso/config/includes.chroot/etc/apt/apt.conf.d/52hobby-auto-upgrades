@@ -1,0 +1,9 @@
+// Upgrade ALL packages from all Debian repos
+Unattended-Upgrade::Origins-Pattern {
+    "origin=Debian,codename=${distro_codename}";
+    "origin=Debian,codename=${distro_codename}-security";
+};
+
+// Auto clean unused deps and kernels
+Unattended-Upgrade::Remove-Unused-Dependencies "true";
+Unattended-Upgrade::Remove-New-Unused-Dependencies "true";

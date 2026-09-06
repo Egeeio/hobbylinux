@@ -1,0 +1,8 @@
+# Prevent recommended/suggested pulls of superseded packages
+Package: rsyslog
+Pin: release *
+Pin-Priority: -1
+
+Package: rtkit
+Pin: release *
+Pin-Priority: -1
