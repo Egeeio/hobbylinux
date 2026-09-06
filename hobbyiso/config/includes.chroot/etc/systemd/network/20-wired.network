@@ -1,0 +1,7 @@
+[Match]
+Name=en* eth*
+
+[Network]
+DHCP=yes
+DNS=1.1.1.1
+DNS=8.8.8.8
