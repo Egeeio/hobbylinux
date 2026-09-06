@@ -1,0 +1,12 @@
+{
+    "KPlugin": {
+        "Authors": [
+            {
+                "Name": "Egee"
+            }
+        ],
+        "Id": "Next",
+        "License": "CC-BY-NC-SA-4.0",
+        "Name": "Hobby Linux"
+    }
+}
