@@ -49,7 +49,12 @@ if test -d /tmp/iwd-live
 end
 
 log_debug "Unmasking background system services on installed target..."
-hobby_unmask_live_services
+systemctl unmask \
+    apt-daily.service \
+    apt-daily.timer \
+    apt-daily-upgrade.service \
+    apt-daily-upgrade.timer \
+    unattended-upgrades.service
 
 log_debug "Removing installer helper scripts from /usr/local/bin..."
 rm -f /usr/local/bin/hobby-bootloader-install.fish

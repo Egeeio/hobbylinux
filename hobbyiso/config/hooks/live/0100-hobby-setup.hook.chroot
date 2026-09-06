@@ -46,7 +46,12 @@ if dpkg -l plasma-welcome &>/dev/null
 end
 
 log_debug "Masking background APT update timers in live session..."
-hobby_mask_live_services
+systemctl mask \
+    apt-daily.service \
+    apt-daily.timer \
+    apt-daily-upgrade.service \
+    apt-daily-upgrade.timer \
+    unattended-upgrades.service
 
 log_debug "Configuring sudo-rs as default sudo implementation..."
 if test -f /usr/bin/sudo-rs
