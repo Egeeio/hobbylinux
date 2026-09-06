@@ -73,8 +73,8 @@ Take a look at the tests under `specs/`. They are unit tests which also help doc
 * **System Configuration:** 
    * **sudo:** `sudo-rs`
    * **NetworkManager** `iwd` w/`systemd-resolved`
-   * **AudioServer** `pipewire`
-   * **Drivers** `this that` and microcodes
+   * **AudioServer:** `pipewire`
+   * **Drivers:** microcodes, firmwares, & fs progs pre-installed
 * **Software Management:** 
   * **System Level:** `nala`
   * **Application Level:** `flatpak --user` w/flathub
@@ -86,12 +86,13 @@ Take a look at the tests under `specs/`. They are unit tests which also help doc
 
 Some known issues I didn't or haven't had time to tackle just yet:
 
+* SDDM doesn't use user's pfp
 * Pinned apps in the default panel are wrong
 * Home folders missing from the desktop
 * VSCodium flatpak is a bit janky, needs better defaults
-* SDDM doesn't use user's pfp
 * Should start with fresh empty plasma session
 * Iso build ought to use podman instead of docker
+* The installer could use more content (loading pages etc.)
 
 ---
 
