@@ -1,0 +1,47 @@
+---
+componentName:  hobby
+
+# windowExpanding can be normal, fullscreen, or noexpand
+windowExpanding: normal
+windowSize: 800px,520px
+windowPlacement: center
+
+# sidebar can be widget, qml, or none
+sidebar: widget
+navigation: widget
+
+strings:
+    productName:         Hobby Linux
+    shortProductName:    Hobby
+    version:             0.7.0
+    shortVersion:        0.7.0
+    versionedName:       Hobby Linux 0.7.0
+    shortVersionedName:  Hobby 0.7.0
+    bootloaderEntryName: Hobby
+    productUrl:          https://github.com/Egeeio/hobbylinux
+    supportUrl:          https://github.com/Egeeio/hobbylinux
+    knownIssuesUrl:      https://github.com/Egeeio/hobbylinux
+    releaseNotesUrl:     https://github.com/Egeeio/hobbylinux
+    donateUrl:           https://github.com/Egeeio/hobbylinux
+
+images:
+    productLogo:         "eglabs.webp"
+    productIcon:         "eglabs.webp"
+    productWelcome:      "eglabs.webp"
+    # productWallpaper:  "wallpaper.png"
+
+# slideshow specifies the QML file for the slideshow during install.
+# Even if we don't have one right now, Calamares expects the key to exist!
+slideshow:               "show.qml"
+slideshowAPI: 2
+
+# uploadServer configuration for logs (optional, commented out)
+# uploadServer:
+#     type: paste
+#     url: http://paste.example.com/
+
+style:
+   SidebarBackground:    "#2c3133"
+   SidebarText:          "#FFFFFF"
+   SidebarTextCurrent:   "#292F34"
+   SidebarBackgroundCurrent: "#D35400"
