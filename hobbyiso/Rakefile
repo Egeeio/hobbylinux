@@ -1,0 +1,228 @@
+# frozen_string_literal: true
+
+ISO_DIR  = '.'
+VM_DIR   = 'vm'
+DISK_IMG = "#{VM_DIR}/hobbylinux-test.qcow2"
+DISK_SIZE = '20G'
+VM_RAM   = '4G'
+VM_CPUS  = '2'
+
+directory VM_DIR
+
+# ISO build task
+namespace :iso do
+  desc 'Build the HobbyLinux ISO via live-build in Docker'
+  task :build do
+    mkdir_p "#{ISO_DIR}/build"
+
+    iso_dir = File.expand_path(ISO_DIR)
+
+    sh 'docker pull debian:testing'
+
+    sh <<~CMD
+      docker run --rm --privileged \
+        --name hobbyiso-builder \
+        -e DEBIAN_FRONTEND=noninteractive \
+        -v #{iso_dir}:/repo \
+        debian:testing \
+        bash -c "apt-get update && apt-get install -y live-build grub-common grub-pc-bin grub-efi-amd64-bin mtools dosfstools xorriso && \
+          mkdir -p /repo/build && \
+          cd /repo/build && \
+          ln -snf ../auto auto && \
+          ln -snf ../config config && \
+          lb config && \
+          lb build 2>&1 | tee build.log && \
+          chown -R #{Process.uid}:#{Process.gid} /repo/build"
+    CMD
+  end
+
+  desc 'Clean ISO build artifacts'
+  task :clean do
+    rm_rf "#{ISO_DIR}/build"
+
+    if Dir.exist?("#{ISO_DIR}/build")
+      iso_dir = File.expand_path(ISO_DIR)
+      sh <<~CMD
+        docker run --rm --privileged \
+          --name hobbyiso-cleaner \
+          -v #{iso_dir}:/repo \
+          debian:testing \
+          bash -c "rm -rf /repo/build"
+      CMD
+    end
+  end
+
+  desc 'Clean and rebuild the ISO'
+  task rebuild: ['iso:clean', 'iso:build']
+end
+
+# VM tasks
+namespace :vm do
+  desc 'Create a fresh test disk image'
+  task create: VM_DIR do
+    sh "qemu-img create -f qcow2 #{DISK_IMG} #{DISK_SIZE}" unless File.exist?(DISK_IMG)
+  end
+
+  desc 'Boot from live ISO in UEFI mode'
+  task boot: ['vm:create', VM_DIR] do
+    iso = FileList["#{ISO_DIR}/build/*.iso"].max_by { |f| File.mtime(f) } || FileList['*.iso'].max_by { |f| File.mtime(f) }
+    abort 'No ISO found. Run `rake iso:build` or place an .iso in the project root.' unless iso
+
+    ovmf_code = '/usr/share/OVMF/OVMF_CODE_4M.fd'
+    ovmf_vars_template = '/usr/share/OVMF/OVMF_VARS_4M.fd'
+    vm_vars = "#{VM_DIR}/OVMF_VARS.fd"
+
+    cp(ovmf_vars_template, vm_vars) unless File.exist?(vm_vars)
+
+    puts "Booting ISO in UEFI mode: #{iso}"
+    sh <<~CMD.tr("\n", ' ')
+      qemu-system-x86_64
+        -enable-kvm
+        -m #{VM_RAM}
+        -smp #{VM_CPUS}
+        -drive if=pflash,format=raw,readonly=on,file=#{ovmf_code}
+        -drive if=pflash,format=raw,file=#{vm_vars}
+        -drive file=#{DISK_IMG},format=qcow2,if=virtio
+        -cdrom #{iso}
+        -boot d
+        -nic user,model=virtio-net-pci,hostfwd=tcp::2222-:22
+        -vga virtio
+        -display gtk,gl=on
+    CMD
+  end
+
+  desc 'Alias for vm:boot'
+  task 'boot:uefi': :boot
+
+  desc 'Boot installed system in UEFI mode (no ISO)'
+  task run: ['vm:create', VM_DIR] do
+    ovmf_code = '/usr/share/OVMF/OVMF_CODE_4M.fd'
+    vm_vars = "#{VM_DIR}/OVMF_VARS.fd"
+
+    abort "UEFI NVRAM vars file not found at #{vm_vars}. Did you install via UEFI?" unless File.exist?(vm_vars)
+
+    sh <<~CMD.tr("\n", ' ')
+      qemu-system-x86_64
+        -enable-kvm
+        -m #{VM_RAM}
+        -smp #{VM_CPUS}
+        -drive if=pflash,format=raw,readonly=on,file=#{ovmf_code}
+        -drive if=pflash,format=raw,file=#{vm_vars}
+        -drive file=#{DISK_IMG},format=qcow2,if=virtio
+        -nic user,model=virtio-net-pci,hostfwd=tcp::2222-:22
+        -vga virtio
+        -display gtk,gl=on
+    CMD
+  end
+
+  desc 'Alias for vm:run'
+  task 'run:uefi': :run
+
+  desc 'Destroy and recreate the test disk'
+  task reset: VM_DIR do
+    rm_f DISK_IMG
+    rm_f "#{VM_DIR}/OVMF_VARS.fd"
+    Rake::Task['vm:create'].invoke
+  end
+
+end
+
+# Version tasks
+VERSION_FILE = 'VERSION'
+BRANDING_FILE = 'config/includes.chroot/etc/calamares/branding/hobby/branding.desc'
+OS_RELEASE_FILES = [
+  'config/includes.chroot/usr/lib/os-release'
+].freeze
+
+def current_version
+  File.read(VERSION_FILE).strip
+end
+
+def write_version(version)
+  File.write(VERSION_FILE, "#{version}\n")
+
+  if File.exist?(BRANDING_FILE)
+    branding = File.read(BRANDING_FILE)
+    branding.gsub!(/^\s*version:\s*.+$/, "    version:             #{version}")
+    branding.gsub!(/^\s*shortVersion:\s*.+$/, "    shortVersion:        #{version}")
+    branding.gsub!(/^\s*versionedName:\s*.+$/, "    versionedName:       Hobby Linux #{version}")
+    branding.gsub!(/^\s*shortVersionedName:\s*.+$/, "    shortVersionedName:  Hobby #{version}")
+    File.write(BRANDING_FILE, branding)
+  end
+
+  OS_RELEASE_FILES.each do |file|
+    next unless File.exist?(file)
+
+    content = File.read(file)
+    content.gsub!(/^PRETTY_NAME="Hobby Linux .+"$/, %(PRETTY_NAME="Hobby Linux #{version}"))
+    content.gsub!(/^VERSION_ID=".+"$/, %(VERSION_ID="#{version}"))
+    content.gsub!(/^VERSION=".+"$/, %(VERSION="#{version}"))
+    File.write(file, content)
+  end
+end
+
+desc 'Display current version'
+task :version do
+  puts "hobbyiso v#{current_version}"
+end
+
+desc 'Increment the patch version (0.1.0 -> 0.1.1)'
+task :bump do
+  old_version = current_version
+  major, minor, patch = old_version.split('.').map(&:to_i)
+  new_version = "#{major}.#{minor}.#{patch + 1}"
+  write_version(new_version)
+  puts "Bumped version: #{old_version} -> #{new_version}"
+end
+
+namespace :bump do
+  desc 'Increment the minor version (0.1.0 -> 0.2.0)'
+  task :minor do
+    old_version = current_version
+    major, minor, _patch = old_version.split('.').map(&:to_i)
+    new_version = "#{major}.#{minor + 1}.0"
+    write_version(new_version)
+    puts "Bumped version: #{old_version} -> #{new_version}"
+  end
+
+  desc 'Increment the major version (0.1.0 -> 1.0.0)'
+  task :major do
+    old_version = current_version
+    major, _minor, _patch = old_version.split('.').map(&:to_i)
+    new_version = "#{major + 1}.0.0"
+    write_version(new_version)
+    puts "Bumped version: #{old_version} -> #{new_version}"
+  end
+end
+
+# Linting
+desc 'Lint YAML, Shell, and JavaScript files for syntax errors'
+task :lint do
+  sh 'ruby spec/lint.rb'
+end
+
+# Specz
+namespace :spec do
+  desc 'Run unit specs'
+  task :unit do
+    sh 'rspec -I spec spec/unit'
+  end
+
+  desc 'Run integration specs'
+  task :integration do
+    sh 'rspec -I spec spec/integration'
+  end
+
+  desc 'Run e2e specs'
+  task :e2e do
+    sh 'rspec -I spec spec/e2e'
+  end
+end
+
+desc 'Run all specs'
+task :spec do
+  sh 'rspec -I spec spec'
+end
+
+desc 'Alias for rake spec'
+task test: :spec

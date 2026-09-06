@@ -1,0 +1,36 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    name: Lint & Specs
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3'
+
+      - name: Install system dependencies (ShellCheck, Fish)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y shellcheck fish
+
+      - name: Install Ruby dependencies
+        run: |
+          gem install rake rspec psych
+
+      - name: Run Linting
+        run: rake lint
+
+      - name: Run Specs
+        run: rake spec
