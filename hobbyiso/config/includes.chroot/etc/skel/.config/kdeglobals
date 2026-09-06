@@ -1,0 +1,7 @@
+[KDE]
+AnimationDurationFactor=0
+AutomaticLookAndFeel=true
+LookAndFeelPackage=org.kde.breeze.desktop
+contrast=4
+frameContrast=0.2
+

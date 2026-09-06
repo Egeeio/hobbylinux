@@ -1,0 +1,17 @@
+[ElectricBorders]
+Bottom=None
+BottomLeft=None
+BottomRight=None
+Left=None
+Right=None
+Top=None
+TopLeft=None
+TopRight=None
+ElectricBorderCornerRatio=0
+ElectricBorderDelay=0
+
+[Plugins]
+backgroundcontrastEnabled=false
+blurEnabled=false
+overviewEnabled=false
+slideEnabled=false
