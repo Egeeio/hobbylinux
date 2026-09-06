@@ -1,0 +1,105 @@
+#!/usr/bin/fish
+set -g fish_trace 1
+
+source /usr/local/lib/hobbylib.fish
+
+log_info "Running Hobby Linux Chroot Setup Hook..."
+
+log_debug "Enabling essential services..."
+systemctl enable NetworkManager
+systemctl enable iwd
+systemctl enable systemd-resolved
+systemctl enable systemd-timesyncd
+systemctl enable avahi-daemon
+systemctl enable cups
+systemctl enable cups-browsed
+systemctl enable ssh
+systemctl enable bluetooth
+systemctl enable tmp.mount
+systemctl enable fstrim.timer
+
+log_debug "Masking wpa_supplicant in favor of iwd..."
+systemctl mask wpa_supplicant
+
+log_debug "Ensuring iwd storage directory exists..."
+mkdir -p /var/lib/iwd
+chmod 700 /var/lib/iwd
+
+log_debug "Purging rsyslog if present (journald-only)..."
+if dpkg -l rsyslog &>/dev/null
+    apt-get purge -y rsyslog
+end
+
+log_debug "Ensuring GTK desktop portal is purged in favor of KDE/Qt..."
+if dpkg -l xdg-desktop-portal-gtk &>/dev/null
+    apt-get purge -y xdg-desktop-portal-gtk
+end
+
+log_debug "Dropping rtkit daemon (using PAM realtime limits in /etc/security/limits.d)..."
+if dpkg -l rtkit &>/dev/null
+    apt-get purge -y rtkit
+end
+
+log_debug "Purging plasma-welcome from live image..."
+if dpkg -l plasma-welcome &>/dev/null
+    apt-get purge -y plasma-welcome
+end
+
+log_debug "Masking background APT update timers in live session..."
+hobby_mask_live_services
+
+log_debug "Configuring sudo-rs as default sudo implementation..."
+if test -f /usr/bin/sudo-rs
+    ln -sf /usr/bin/sudo-rs /usr/bin/sudo
+    ln -sf /usr/bin/visudo-rs /usr/bin/visudo
+    ln -sf /usr/bin/sudo-rs /usr/local/bin/sudo
+    ln -sf /usr/bin/visudo-rs /usr/local/bin/visudo
+    chmod 4755 /usr/bin/sudo-rs
+end
+
+log_debug "Ensuring /etc/sudoers.d directory and permissions..."
+mkdir -p /etc/sudoers.d
+chmod 750 /etc/sudoers.d
+
+log_debug "Configuring passwordless sudo for live user..."
+echo 'hobby ALL=(ALL:ALL) NOPASSWD: ALL' > /etc/sudoers.d/hobby
+chmod 440 /etc/sudoers.d/hobby
+
+log_debug "Updating APT sources list to modern deb822 format..."
+apt modernize-sources -y
+
+log_debug "Disabling deb-src repositories..."
+if test -f /etc/apt/sources.list.d/debian.sources
+    sed -i 's/Types: deb deb-src/Types: deb/g' /etc/apt/sources.list.d/debian.sources
+end
+
+echo "# Repositories migrated to /etc/apt/sources.list.d/debian.sources" > /etc/apt/sources.list
+
+log_debug "Configuring Flathub repository for user skeleton (/etc/skel)..."
+mkdir -p /etc/skel/.local/share/flatpak
+set -lx HOME /etc/skel
+set -lx XDG_DATA_HOME /etc/skel/.local/share
+flatpak --user remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+
+log_debug "Bootstrapping user skeleton SSH configuration..."
+mkdir -p /etc/skel/.ssh
+chmod 700 /etc/skel/.ssh
+chmod 600 /etc/skel/.ssh/config /etc/skel/.ssh/authorized_keys
+
+log_debug "Generating SSH host keys for live environment..."
+ssh-keygen -A
+
+log_debug "Configuring Plymouth default splash theme to spinner..."
+if command -q plymouth-set-default-theme
+    plymouth-set-default-theme spinner
+end
+
+log_debug "Copying Breeze GRUB theme to /boot/grub/themes..."
+if test -d /usr/share/grub/themes/breeze
+    mkdir -p /boot/grub/themes
+    cp -rf /usr/share/grub/themes/breeze /boot/grub/themes/
+end
+
+log_info "Chroot setup hook complete!"
+
+
