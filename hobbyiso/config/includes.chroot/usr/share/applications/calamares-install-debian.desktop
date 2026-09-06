@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=Install Hobby Linux
+GenericName=System Installer
+Comment=Install the system to your computer
+Exec=sudo -E /usr/local/bin/hobby-calamares-launcher.fish
+Icon=/usr/share/pixmaps/eglabs.webp
+Terminal=false
+Categories=System;

@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Exec=fish -c 'if not test -d /run/live; and not test -f ~/.local/state/hobby-bootstrap.done; konsole -e /usr/local/bin/hobby-bootstrap.fish; end'
+Hidden=false
+NoDisplay=true
+X-GNOME-Autostart-enabled=true
+Name=Hobby Linux Bootstrap
