@@ -1,0 +1,11 @@
+PRETTY_NAME="Hobby Linux 0.7.0"
+NAME="Hobby Linux"
+VERSION_ID="0.7.0"
+VERSION="0.7.0"
+VERSION_CODENAME="trixie"
+ID=hobbylinux
+ID_LIKE=debian
+HOME_URL="https://github.com/Egeeio/hobbylinux"
+SUPPORT_URL="https://github.com/Egeeio/hobbylinux"
+BUG_REPORT_URL="https://github.com/Egeeio/hobbylinux"
+
