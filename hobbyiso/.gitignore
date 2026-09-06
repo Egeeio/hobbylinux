@@ -1,0 +1,30 @@
+.build/
+build.log
+cache/
+chroot/
+*.iso
+*.hybrid.iso
+*.contents
+*.zsync
+binary/
+binary.modified_timestamps
+chroot.files
+chroot.packages.install
+chroot.packages.live
+config/binary
+config/bootstrap
+config/chroot
+config/common
+config/source
+config/hooks/normal/*.chroot
+config/hooks/live/00*.chroot
+
+# Build workspaces, outputs, and QEMU VMs
+build/
+vm/
+
+# Docs
+docs/*
+live-image-amd64.files
+live-image-amd64.packages
+
