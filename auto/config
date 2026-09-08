@@ -20,5 +20,6 @@ lb config noauto \
   --memtest none \
   --apt-indices false \
   --firmware-chroot false \
-  --bootappend-live "boot=live components username=hobby user-fullname=Hobby hostname=hobbylinux autologin" \
+  --bootappend-live "boot=live components username=hobby user-fullname=Hobby hostname=hobbylinux autologin module_blacklist=nouveau modprobe.blacklist=nouveau" \
+  --bootappend-live-failsafe "boot=live components username=hobby user-fullname=Hobby hostname=hobbylinux autologin module_blacklist=nouveau modprobe.blacklist=nouveau nomodeset" \
   "${@}"

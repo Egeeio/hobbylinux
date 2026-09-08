@@ -45,6 +45,14 @@ if dpkg -l plasma-welcome &>/dev/null
     apt-get purge -y plasma-welcome
 end
 
+log_debug "Purging nouveau driver from chroot kernel modules..."
+find /usr/lib/modules/ -name "*nouveau*" -delete 2>/dev/null || true
+for kver in (ls /usr/lib/modules 2>/dev/null)
+    if test -d /usr/lib/modules/$kver
+        depmod -a $kver
+    end
+end
+
 log_debug "Masking background APT update timers in live session..."
 systemctl mask \
     apt-daily.service \
