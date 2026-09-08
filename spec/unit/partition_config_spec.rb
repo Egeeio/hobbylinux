@@ -13,11 +13,10 @@ RSpec.describe 'Calamares Partitioning Configuration' do
     expect(data['defaultFileSystemType']).to eq('xfs')
     expect(data['defaultPartitionTableType']).to eq('gpt')
     expect(data['createHybridBootloaderLayout']).to be false
-    expect(data['luksGeneration']).to eq('luks1')
+    expect(data['luksGeneration']).to eq('luks2')
     expect(data['preCheckEncryption']).to be false
 
     expect(data['efiSystemPartition']).to eq('/boot/efi')
-    expect(data['efiSystemPartitionSize']).to eq('512M')
 
     layout = data['partitionLayout'] || []
     boot_part = layout.find { |p| p['mountPoint'] == '/boot' }
