@@ -1,6 +1,8 @@
 #!/bin/sh
 set -e
 
+export MKSQUASHFS_OPTIONS="-comp xz -b 1048576 -Xdict-size 100%"
+
 lb config noauto \
   --distribution testing \
   --security false \

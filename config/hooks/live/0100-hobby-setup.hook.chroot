@@ -113,6 +113,31 @@ if test -d /usr/share/grub/themes/breeze
     cp -rf /usr/share/grub/themes/breeze /boot/grub/themes/
 end
 
+log_debug "Removing stale Plymouth themes..."
+for theme in solar glow fade-in script tribar spinfinity
+    if test -d /usr/share/plymouth/themes/$theme
+        rm -rf /usr/share/plymouth/themes/$theme
+    end
+end
+
+log_debug "Pruning documentation, man pages, and info files to save space..."
+find /usr/share/doc -type f -not -name "copyright*" -delete 2>/dev/null || true
+find /usr/share/doc -type d -empty -delete 2>/dev/null || true
+rm -rf /usr/share/man/* /usr/share/info/* /usr/share/groff/* /usr/share/lintian/*
+
+log_debug "Autoremoving orphaned packages..."
+apt-get autoremove -y --purge
+
+log_debug "Cleaning APT package cache and lists..."
+apt-get clean
+rm -rf /var/cache/apt/archives/*.deb /var/cache/apt/*.bin
+rm -rf /var/lib/apt/lists/*
+
+log_debug "Cleaning temporary files and build logs..."
+rm -rf /var/log/* /tmp/* /var/tmp/*
+mkdir -p /var/log /tmp /var/tmp
+chmod 1777 /tmp /var/tmp
+
 log_info "Chroot setup hook complete!"
 
 
