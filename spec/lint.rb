@@ -1,7 +1,17 @@
+# TODO: Keeping this in ruby for now. could be in fish but this
+#       works fine and is easy to extend.
 require 'yaml'
   errors = []
 
-  yaml_files = Dir.glob('config/includes.chroot/etc/calamares/**/*.conf') + Dir.glob('config/includes.chroot/etc/calamares/**/*.yaml')
+  yaml_files = Dir.glob('*.yml') +
+               Dir.glob('*.yaml') +
+               Dir.glob('tasks/**/*.yml') +
+               Dir.glob('tasks/**/*.yaml') +
+               Dir.glob('.github/**/*.yml') +
+               Dir.glob('.github/**/*.yaml') +
+               Dir.glob('config/includes.chroot/etc/calamares/**/*.conf') +
+               Dir.glob('config/includes.chroot/etc/calamares/**/*.yaml')
+  yaml_files = yaml_files.select { |f| File.file?(f) }.uniq.sort
   puts 'Checking YAML syntax...'
   yaml_files.each do |file|
     begin
@@ -17,6 +27,10 @@ require 'yaml'
   all_scripts = Dir.glob('config/hooks/**/*') +
                 Dir.glob('config/includes.chroot/usr/local/bin/**/*') +
                 Dir.glob('config/includes.chroot/usr/local/lib/**/*') +
+                Dir.glob('config/includes.chroot/etc/fish/conf.d/**/*') +
+                Dir.glob('config/includes.chroot/etc/profile.d/**/*') +
+                Dir.glob('lib/**/*') +
+                Dir.glob('scripts/**/*') +
                 Dir.glob('*.sh') +
                 Dir.glob('*.fish')
   all_scripts = all_scripts.select { |f| File.file?(f) }.uniq
