@@ -25,25 +25,8 @@ log_debug "Ensuring iwd storage directory exists..."
 mkdir -p /var/lib/iwd
 chmod 700 /var/lib/iwd
 
-log_debug "Purging rsyslog if present (journald-only)..."
-if dpkg -l rsyslog &>/dev/null
-    apt-get purge -y rsyslog
-end
-
-log_debug "Ensuring GTK desktop portal is purged in favor of KDE/Qt..."
-if dpkg -l xdg-desktop-portal-gtk &>/dev/null
-    apt-get purge -y xdg-desktop-portal-gtk
-end
-
-log_debug "Dropping rtkit daemon (using PAM realtime limits in /etc/security/limits.d)..."
-if dpkg -l rtkit &>/dev/null
-    apt-get purge -y rtkit
-end
-
-log_debug "Purging plasma-welcome from live image..."
-if dpkg -l plasma-welcome &>/dev/null
-    apt-get purge -y plasma-welcome
-end
+log_debug "Purging superseded packages..."
+nala purge -y rsyslog xdg-desktop-portal-gtk rtkit plasma-welcome
 
 log_debug "Purging nouveau driver from chroot kernel modules..."
 find /usr/lib/modules/ -name "*nouveau*" -delete 2>/dev/null || true
@@ -126,10 +109,10 @@ find /usr/share/doc -type d -empty -delete 2>/dev/null || true
 rm -rf /usr/share/man/* /usr/share/info/* /usr/share/groff/* /usr/share/lintian/*
 
 log_debug "Autoremoving orphaned packages..."
-apt-get autoremove -y --purge
+nala autoremove -y --purge
 
 log_debug "Cleaning APT package cache and lists..."
-apt-get clean
+nala clean
 rm -rf /var/cache/apt/archives/*.deb /var/cache/apt/*.bin
 rm -rf /var/lib/apt/lists/*
 

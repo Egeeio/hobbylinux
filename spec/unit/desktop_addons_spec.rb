@@ -66,7 +66,7 @@ RSpec.describe 'Desktop Addons & Wallpaper Configuration' do
     hook_path = 'config/hooks/live/0100-hobby-setup.hook.chroot'
     expect(File.exist?(hook_path)).to be true
     content = File.read(hook_path)
-    expect(content).to match(/apt-get purge -y plasma-welcome/)
+    expect(content).to match(/purge -y.*plasma-welcome/)
   end
 end
 

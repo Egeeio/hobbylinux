@@ -17,6 +17,6 @@ RSpec.describe 'Real-time Audio Scheduling Configuration' do
 
   it 'purges rtkit daemon in chroot setup hook' do
     hook_content = File.read(hook_path)
-    expect(hook_content).to match(/apt-get purge -y rtkit/)
+    expect(hook_content).to match(/purge -y.*rtkit/)
   end
 end
