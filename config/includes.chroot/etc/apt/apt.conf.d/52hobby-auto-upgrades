@@ -1,5 +1,6 @@
 // Upgrade ALL packages from all Debian repos
 Unattended-Upgrade::Origins-Pattern {
+    "o=Debian,a=testing";
     "origin=Debian,codename=${distro_codename}";
     "origin=Debian,codename=${distro_codename}-security";
 };

@@ -24,6 +24,7 @@ RSpec.describe 'APT Auto-Upgrades Configuration' do
     expect(File.exist?(pattern_conf)).to be true
 
     content = File.read(pattern_conf)
+    expect(content).to match(/o=Debian,a=testing/)
     expect(content).to match(/origin=Debian,codename=\$\{distro_codename\}/)
     expect(content).to match(/Unattended-Upgrade::Remove-Unused-Dependencies\s+"true";/)
   end
