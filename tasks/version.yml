@@ -1,0 +1,27 @@
+version: '3'
+
+tasks:
+  default:
+    desc: 'Display iso version'
+    cmds:
+      - echo "Hobby Linux v{{.VERSION}}"
+
+  bump:
+    desc: 'Bump iso version (usage: task version:bump -- [patch|minor|major|<version>])'
+    cmds:
+      - fish scripts/version-bump.fish {{.CLI_ARGS | default "patch"}}
+
+  'bump:patch':
+    desc: 'Increment patch version (e.g. 0.7.2 -> 0.7.3)'
+    cmds:
+      - fish scripts/version-bump.fish patch
+
+  'bump:minor':
+    desc: 'Increment minor version (e.g. 0.7.2 -> 0.8.0)'
+    cmds:
+      - fish scripts/version-bump.fish minor
+
+  'bump:major':
+    desc: 'Increment major version (e.g. 0.7.2 -> 1.0.0)'
+    cmds:
+      - fish scripts/version-bump.fish major

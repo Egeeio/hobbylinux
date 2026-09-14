@@ -1,0 +1,16 @@
+version: '3'
+
+vars:
+  VERSION:
+    sh: cat VERSION | tr -d '[:space:]'
+
+includes:
+  iso:     ./tasks/iso.yml
+  vm:      ./tasks/vm.yml
+  version: ./tasks/version.yml
+  test:    ./tasks/test.yml
+
+tasks:
+  default:
+    cmds:
+      - task --list

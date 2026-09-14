@@ -15,22 +15,24 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
 
+      - name: Install Task
+        uses: arduino/setup-task@v2
+        with:
+          version: 3.x
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: '3.3'
+
+      - name: Install Ruby dependencies
+        run: gem install rspec psych
 
       - name: Install system dependencies (ShellCheck, Fish)
         run: |
           sudo apt-get update
           sudo apt-get install -y shellcheck fish
 
-      - name: Install Ruby dependencies
-        run: |
-          gem install rake rspec psych
-
-      - name: Run Linting
-        run: rake lint
-
-      - name: Run Specs
-        run: rake spec
+      - name: Run Tests via Task
+        run: task test

@@ -1,0 +1,18 @@
+version: '3'
+
+tasks:
+  build:
+    desc: 'Build ze Hobby Linux iso with ze live-build and ze docker'
+    cmds:
+      - fish scripts/iso-build.fish {{.VERSION}}
+
+  clean:
+    desc: 'Clean iso build dir'
+    cmds:
+      - fish scripts/iso-clean.fish
+
+  rebuild:
+    desc: 'Clean build dir and rebuild the whole iso'
+    cmds:
+      - task: clean
+      - task: build

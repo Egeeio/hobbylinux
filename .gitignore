@@ -20,6 +20,7 @@ config/hooks/normal/*.chroot
 config/hooks/live/00*.chroot
 
 # Build workspaces, outputs, and QEMU VMs
+bin/
 build/
 vm/
 

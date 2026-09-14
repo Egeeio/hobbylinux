@@ -1,0 +1,12 @@
+version: '3'
+
+tasks:
+  run:
+    desc: 'Run the vm (optional: ISO=path/to.iso)'
+    cmds:
+      - fish scripts/vm-run.fish {{.ISO}}
+
+  clean:
+    desc: 'Delete vm dir'
+    cmds:
+      - rm -rf vm/

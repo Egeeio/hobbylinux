@@ -1,0 +1,1 @@
+../config/includes.chroot/usr/local/lib/hobbylib.fish
