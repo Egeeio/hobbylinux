@@ -1,14 +1,7 @@
 #!/usr/bin/fish
-set -g fish_trace 1
-
 source /usr/local/lib/hobbylib.fish
 
 log_info "Cleaning up live environment files..."
-
-log_debug "Deploying installed PowerDevil power management configuration..."
-if test -f /etc/xdg/powerdevilrc.installed
-    mv -f /etc/xdg/powerdevilrc.installed /etc/xdg/powerdevilrc
-end
 
 log_debug "Removing installer desktop shortcuts and live session permissions..."
 rm -f /usr/share/applications/calamares-debian-installer.desktop
@@ -48,17 +41,10 @@ if test -d /tmp/iwd-live
     chmod 600 /var/lib/iwd/*.psk 2>/dev/null || true
 end
 
-log_debug "Unmasking background system services on installed target..."
-systemctl unmask \
-    apt-daily.service \
-    apt-daily.timer \
-    apt-daily-upgrade.service \
-    apt-daily-upgrade.timer \
-    unattended-upgrades.service
-
 log_debug "Removing installer helper scripts from /usr/local/bin..."
 rm -f /usr/local/bin/hobby-bootloader-install.fish
 rm -f /usr/local/bin/hobby-calamares-launcher.fish
 rm -f /usr/local/bin/hobby-cleanup.fish
 
 log_info "Cleanup complete."
+exit 0

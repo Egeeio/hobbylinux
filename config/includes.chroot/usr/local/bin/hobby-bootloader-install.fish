@@ -1,6 +1,4 @@
 #!/usr/bin/fish
-set -g fish_trace 1
-
 source /usr/local/lib/hobbylib.fish
 
 function install_uefi
@@ -47,3 +45,4 @@ function main
 end
 
 main
+exit 0

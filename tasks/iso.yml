@@ -9,7 +9,8 @@ tasks:
   clean:
     desc: 'Clean iso build dir'
     cmds:
-      - fish scripts/iso-clean.fish
+      - rm -rf build/
+      - rm -f config/binary config/bootstrap config/chroot config/common config/source
 
   rebuild:
     desc: 'Clean build dir and rebuild the whole iso'

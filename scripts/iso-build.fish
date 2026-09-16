@@ -16,12 +16,14 @@ set -l host_gid (id -g)
 
 mkdir -p build
 
-log_info "Pulling down builder image (debian:testing)..."
-docker pull debian:testing
+log_info "Pulling down builder image (debian:bookworm)..."
+docker pull debian:trixie
 
 log_info "Building Hobby Linux v$iso_version ISO... 🙏📿"
-hobby_docker_run \
-    "apt-get update && apt-get install -y live-build squashfs-tools grub-common grub-pc-bin grub-efi-amd64-bin mtools dosfstools xorriso && \
+docker run --rm --privileged -v (pwd):/repo -w /repo \
+    -e DEBIAN_FRONTEND=noninteractive \
+    debian:trixie bash -c \
+    "apt-get update && apt-get install -y apt-utils live-build squashfs-tools grub-common grub-pc-bin grub-efi-amd64-bin mtools dosfstools xorriso && \
       if [ -f /usr/bin/mksquashfs ] && [ ! -f /usr/bin/mksquashfs.real ]; then \
         mv /usr/bin/mksquashfs /usr/bin/mksquashfs.real && \
         printf '#!/bin/sh\nexec /usr/bin/mksquashfs.real \"\$@\" -comp xz -b 1048576 -Xdict-size 100%%\n' > /usr/bin/mksquashfs && \
