@@ -2,17 +2,11 @@ version: '3'
 
 tasks:
   default:
-    desc: 'Run all tests and linting'
+    desc: 'Run linting'
     cmds:
       - task: lint
-      - rspec spec
 
   lint:
-    desc: 'Lint the yaml, shell, and fishy files'
+    desc: 'Lint yaml, shell, and fish scripts'
     cmds:
-      - ruby spec/lint.rb
-
-  spec:
-    desc: 'Run test specs (usage: task test:spec -- [unit|integration|e2e])'
-    cmds:
-      - rspec spec/{{.CLI_ARGS | default "unit"}}
+      - fish scripts/lint.fish
