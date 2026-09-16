@@ -6,3 +6,36 @@ Pin-Priority: -1
 Package: rtkit
 Pin: release *
 Pin-Priority: -1
+
+# Blacklist Plasma / KDE desktop components from being pulled
+Package: plasma-desktop
+Pin: release *
+Pin-Priority: -1
+
+Package: plasma-workspace
+Pin: release *
+Pin-Priority: -1
+
+Package: kwin-wayland
+Pin: release *
+Pin-Priority: -1
+
+Package: kwin-common
+Pin: release *
+Pin-Priority: -1
+
+Package: plasma-desktoptheme
+Pin: release *
+Pin-Priority: -1
+
+Package: plasma-welcome
+Pin: release *
+Pin-Priority: -1
+
+Package: sddm-theme-breeze
+Pin: release *
+Pin-Priority: -1
+
+Package: sddm-theme-debian-breeze
+Pin: release *
+Pin-Priority: -1

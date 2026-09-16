@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openbox_config xmlns="http://openbox.org/3.4/rc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://openbox.org/3.4/rc">
+  <theme>
+    <name>Breeze</name>
+    <titleLayout>NLIMC</titleLayout>
+    <keepBorder>yes</keepBorder>
+    <animateIconify>no</animateIconify>
+  </theme>
+  <desktops>
+    <number>2</number>
+    <firstdesktop>1</firstdesktop>
+    <names>
+      <name>1</name>
+      <name>2</name>
+    </names>
+  </desktops>
+  <resistance>
+    <strength>10</strength>
+    <screen_edge_strength>20</screen_edge_strength>
+  </resistance>
+  <keyboard>
+    <keybind key="W-t">
+      <action name="Execute">
+        <command>qterminal</command>
+      </action>
+    </keybind>
+    <keybind key="C-A-t">
+      <action name="Execute">
+        <command>qterminal</command>
+      </action>
+    </keybind>
+  </keyboard>
+</openbox_config>

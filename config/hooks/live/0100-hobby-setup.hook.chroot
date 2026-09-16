@@ -10,9 +10,6 @@ systemctl enable NetworkManager
 systemctl enable iwd
 systemctl enable systemd-resolved
 systemctl enable systemd-timesyncd
-systemctl enable avahi-daemon
-systemctl enable cups
-systemctl enable cups-browsed
 systemctl enable ssh
 systemctl enable bluetooth
 systemctl enable tmp.mount
@@ -25,9 +22,6 @@ log_debug "Ensuring iwd storage directory exists..."
 mkdir -p /var/lib/iwd
 chmod 700 /var/lib/iwd
 
-log_debug "Purging superseded packages..."
-nala purge -y rsyslog xdg-desktop-portal-gtk rtkit plasma-welcome
-
 log_debug "Purging nouveau driver from chroot kernel modules..."
 find /usr/lib/modules/ -name "*nouveau*" -delete 2>/dev/null || true
 for kver in (ls /usr/lib/modules 2>/dev/null)
@@ -36,46 +30,26 @@ for kver in (ls /usr/lib/modules 2>/dev/null)
     end
 end
 
-log_debug "Masking background APT update timers in live session..."
-systemctl mask \
-    apt-daily.service \
-    apt-daily.timer \
-    apt-daily-upgrade.service \
-    apt-daily-upgrade.timer \
-    unattended-upgrades.service
-
-log_debug "Configuring sudo-rs as default sudo implementation..."
-if test -f /usr/bin/sudo-rs
-    ln -sf /usr/bin/sudo-rs /usr/bin/sudo
-    ln -sf /usr/bin/visudo-rs /usr/bin/visudo
-    ln -sf /usr/bin/sudo-rs /usr/local/bin/sudo
-    ln -sf /usr/bin/visudo-rs /usr/local/bin/visudo
-    chmod 4755 /usr/bin/sudo-rs
-end
-
 log_debug "Ensuring /etc/sudoers.d directory and permissions..."
 mkdir -p /etc/sudoers.d
 chmod 750 /etc/sudoers.d
+
+log_debug "Configuring default terminal to qterminal..."
+if test -f /usr/bin/qterminal
+    update-alternatives --set x-terminal-emulator /usr/bin/qterminal 2>/dev/null || true
+    if not test -f /usr/bin/xterm
+        ln -sf /usr/bin/qterminal /usr/local/bin/xterm
+    end
+end
 
 log_debug "Configuring passwordless sudo for live user..."
 echo 'hobby ALL=(ALL:ALL) NOPASSWD: ALL' > /etc/sudoers.d/hobby
 chmod 440 /etc/sudoers.d/hobby
 
-log_debug "Updating APT sources list to modern deb822 format..."
-apt modernize-sources -y
-
-log_debug "Disabling deb-src repositories..."
-if test -f /etc/apt/sources.list.d/debian.sources
-    sed -i 's/Types: deb deb-src/Types: deb/g' /etc/apt/sources.list.d/debian.sources
-end
+log_debug "Configuring deb822 APT sources with backports..."
+printf 'Types: deb\nURIs: http://deb.debian.org/debian\nSuites: trixie trixie-updates trixie-backports\nComponents: main contrib non-free non-free-firmware\nSigned-By: /usr/share/keyrings/debian-archive-keyring.gpg\n\nTypes: deb\nURIs: http://security.debian.org/debian-security\nSuites: trixie-security\nComponents: main contrib non-free non-free-firmware\nSigned-By: /usr/share/keyrings/debian-archive-keyring.gpg\n' > /etc/apt/sources.list.d/debian.sources
 
 echo "# Repositories migrated to /etc/apt/sources.list.d/debian.sources" > /etc/apt/sources.list
-
-log_debug "Configuring Flathub repository for user skeleton (/etc/skel)..."
-mkdir -p /etc/skel/.local/share/flatpak
-set -lx HOME /etc/skel
-set -lx XDG_DATA_HOME /etc/skel/.local/share
-flatpak --user remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 
 log_debug "Bootstrapping user skeleton SSH configuration..."
 mkdir -p /etc/skel/.ssh
@@ -117,10 +91,8 @@ rm -rf /var/cache/apt/archives/*.deb /var/cache/apt/*.bin
 rm -rf /var/lib/apt/lists/*
 
 log_debug "Cleaning temporary files and build logs..."
-rm -rf /var/log/* /tmp/* /var/tmp/*
+rm -rf /var/log /tmp /var/tmp
 mkdir -p /var/log /tmp /var/tmp
 chmod 1777 /tmp /var/tmp
 
 log_info "Chroot setup hook complete!"
-
-
