@@ -4,9 +4,15 @@ set -e
 export MKSQUASHFS_OPTIONS="-comp xz -b 1048576 -Xdict-size 100%"
 
 lb config noauto \
-  --distribution testing \
-  --security false \
-  --updates false \
+  --distribution trixie \
+  --parent-distribution trixie \
+  --distribution-chroot trixie \
+  --parent-distribution-chroot trixie \
+  --distribution-binary trixie \
+  --parent-distribution-binary trixie \
+  --security true \
+  --updates true \
+  --backports true \
   --parent-mirror-bootstrap "http://ftp.us.debian.org/debian/" \
   --parent-mirror-chroot "http://ftp.us.debian.org/debian/" \
   --mirror-bootstrap "http://ftp.us.debian.org/debian/" \
