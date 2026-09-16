@@ -31,6 +31,9 @@ firmware-realtek
 firmware-sof-signed
 firmware-ti-connectivity
 fish
+fonts-dejavu
+fonts-liberation
+fonts-noto-color-emoji
 gdisk
 git
 grub-common
@@ -73,9 +76,11 @@ pipewire-pulse
 plymouth
 plymouth-themes
 power-profiles-daemon
+qpdfview
 qterminal
 sddm
 sddm-theme-maldives
+screengrab
 smbclient
 sudo
 systemd-resolved
@@ -94,6 +99,7 @@ wireplumber
 x11-xserver-utils
 xclip
 xdg-desktop-portal-lxqt
+xdg-utils
 xfsprogs
 xserver-xorg
 zstd
