@@ -13,10 +13,10 @@ navigation: widget
 strings:
     productName:         Hobby Linux
     shortProductName:    Hobby
-    version:             0.9.0
-    shortVersion:        0.9.0
-    versionedName:       Hobby Linux 0.9.0
-    shortVersionedName:  Hobby 0.9.0
+    version:             0.9.3
+    shortVersion:        0.9.3
+    versionedName:       Hobby Linux 0.9.3
+    shortVersionedName:  Hobby 0.9.3
     bootloaderEntryName: Hobby
     productUrl:          https://github.com/Egeeio/hobbylinux
     supportUrl:          https://github.com/Egeeio/hobbylinux
