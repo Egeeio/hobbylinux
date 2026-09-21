@@ -19,6 +19,14 @@ config/source
 config/hooks/normal/*.chroot
 config/hooks/live/00*.chroot
 
+# OpenTofu / Terraform
+tofu/
+**/.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+!*.tfvars.example
+
 # Build workspaces, outputs, and QEMU VMs
 bin/
 build/
