@@ -59,8 +59,6 @@ sudo apt install -y docker.io qemu-system-x86 ovmf
 
 ### Install / Live Desktop
 
-![Hobby Linux Live Installation](.github/assets/hobby-install.webp)
-
 The live desktop is LXQt. To begin the install, launch the **Install Hobby Linux** shortcut. A network connection is required! The installer is `calamares` and uses some fish helper scripts. Follow the install (partition, users, etc.) prompts and reboot when complete.
 
 ---
