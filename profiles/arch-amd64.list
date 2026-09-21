@@ -1,0 +1,5 @@
+amd64-microcode
+efibootmgr
+grub-efi-amd64-bin
+intel-microcode
+linux-image-amd64

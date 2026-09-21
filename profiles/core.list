@@ -1,0 +1,14 @@
+ca-certificates
+curl
+fastfetch
+fish
+git
+htop
+nala
+nano
+openssh-server
+sudo-rs
+systemd-resolved
+systemd-timesyncd
+systemd-zram-generator
+zstd
