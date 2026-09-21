@@ -46,6 +46,15 @@ log_debug "Configuring passwordless sudo for live user..."
 echo 'hobby ALL=(ALL:ALL) NOPASSWD: ALL' > /etc/sudoers.d/hobby
 chmod 440 /etc/sudoers.d/hobby
 
+log_debug "Enabling systemd linger for default user..."
+mkdir -p /var/lib/systemd/linger
+touch /var/lib/systemd/linger/hobby
+
+if test -f /usr/bin/sudo-rs
+    ln -sf /usr/bin/sudo-rs /usr/local/bin/sudo
+    ln -sf /usr/bin/visudo-rs /usr/local/bin/visudo
+end
+
 log_debug "Configuring deb822 APT sources with backports..."
 printf 'Types: deb\nURIs: http://deb.debian.org/debian\nSuites: trixie trixie-updates trixie-backports\nComponents: main contrib non-free non-free-firmware\nSigned-By: /usr/share/keyrings/debian-archive-keyring.gpg\n\nTypes: deb\nURIs: http://security.debian.org/debian-security\nSuites: trixie-security\nComponents: main contrib non-free non-free-firmware\nSigned-By: /usr/share/keyrings/debian-archive-keyring.gpg\n' > /etc/apt/sources.list.d/debian.sources
 
