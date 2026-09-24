@@ -5,7 +5,8 @@ vars:
     sh: cat VERSION | tr -d '[:space:]'
 
 includes:
-  iso:     ./tasks/iso.yml
+  build:   ./tasks/build.yml
+  tofu:    ./tasks/tofu.yml
   vm:      ./tasks/vm.yml
   version: ./tasks/version.yml
   test:    ./tasks/test.yml

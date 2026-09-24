@@ -1,0 +1,42 @@
+version: '3'
+
+vars:
+  DIR: 'tofu'
+
+tasks:
+  init:
+    desc: 'Initialize OpenTofu in tofu/'
+    dir: '{{.DIR}}'
+    cmds:
+      - tofu init {{.CLI_ARGS}}
+
+  plan:
+    desc: 'Plan OpenTofu image publish and droplet deployment'
+    dir: '{{.DIR}}'
+    cmds:
+      - tofu plan {{.CLI_ARGS}}
+
+  apply:
+    desc: 'Apply OpenTofu configuration (upload to Spaces, register custom image, deploy droplet)'
+    dir: '{{.DIR}}'
+    cmds:
+      - tofu apply {{.CLI_ARGS}}
+
+  destroy:
+    desc: 'Destroy OpenTofu droplet and custom image resources'
+    dir: '{{.DIR}}'
+    cmds:
+      - tofu destroy {{.CLI_ARGS}}
+
+  ip:
+    desc: 'Print deployed droplet IP address'
+    dir: '{{.DIR}}'
+    cmds:
+      - tofu output -raw droplet_ip
+    silent: true
+
+  publish:
+    desc: 'Build QCOW2 and publish/deploy via OpenTofu'
+    cmds:
+      - task: :build:qcow
+      - task: apply

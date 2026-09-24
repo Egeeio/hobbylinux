@@ -1,0 +1,18 @@
+version: '3'
+
+tasks:
+  iso:
+    desc: 'Build Hobby Linux desktop live ISO'
+    cmds:
+      - fish scripts/iso-build.fish {{.VERSION}}
+
+  qcow:
+    desc: 'Build Hobby Linux cloud VPS QCOW2 image'
+    cmds:
+      - fish scripts/cloud-build.fish {{.VERSION}}
+
+  clean:
+    desc: 'Clean build directory and cached configs'
+    cmds:
+      - rm -rf build/
+      - rm -f config/binary config/bootstrap config/chroot config/common config/source
