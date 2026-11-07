@@ -1,26 +1,23 @@
 # Hobby Linux
 
-**Hobby Linux** is a Linux distribution built atop Debian Stable (Trixie) with backports enabled. It has a lightweight LXQt desktop with Openbox, and curated goodies for tinkerers.
+**Hobby Linux** is a Linux distribution built atop Debian Testing (Trixie) with backports enabled. It sports a lightweight lxqt desktop with openbox, modern system plumbing, and defaults for tinkerers.
 
 It’s called Hobby Linux because it lets you explore the machinations of Debian’s `live-build` ecosystem and Calamares installer with your own personal hobby operating system.
 
 ---
 
-### Core Defaults
+### What Makes Hobby Kinda Interesting
 
-Take a look at the tests under `specs/`. They are unit tests which also help document the code so its easier to get a better picture of what's inside at a glance. Summary:
-
-* **Desktop Environment:** lightweight LXQt and Openbox
-* **Firmware & Bootloader:** UEFI w/graphical GRUB and Plymouth spinner-splash screen
-* **Filesystem:** XFS w/optional encryption
-* **System Configuration:** 
-   * **sudo:** standard `sudo`
-   * **NetworkManager:** `iwd` w/`systemd-resolved`
-   * **AudioServer:** `pipewire`
-   * **Drivers:** microcodes, firmwares, & fs progs pre-installed
-* **Software Management:** 
-  * **System Level:** `nala`
-  * **Automated Rolling Maintenance:** `unattended-upgrades` with auto-upgrading packages (not just updating!)
+* **Default Shell:** `fish` is the default login and interactive shell out of the box.
+* **Package Management:** `nala` is the default package manager frontend, with `apt` and `apt-get` aliased to `nala`.
+* **Automated Maintenance:** Weekly background online auto-upgrades via tuned `unattended-upgrades` tracking Debian Testing with automatic dependency cleanup.
+* **Internal Tunings:**
+  * **sudo:** `sudo-rs` symlinked as default
+  * **Networking:** `NetworkManager` w/`iwd` & `systemd-resolved`
+  * **Audio:** `pipewire` with WirePlumber
+  * **Memory:** `systemd-zram-generator` w/zstd
+  * **Drivers:** Microcodes, non-free firmwares, and modern filesystem utilities pre-installed
+* **Desktop & Boot:** Lightweight lxqt desktop with Openbox, UEFI boot with graphical GRUB and Plymouth spinner-splash, and a streamlined Calamares installer.
 
 ---
 
@@ -31,11 +28,11 @@ Hobby uses [`task`](https://taskfile.dev/) as the entry point to build a bootabl
 ### Prerequisites
 
 ```sh
-# Get Task (go-task):
+# Go Get Task (go-task):
 mkdir -p ~/.local/bin
 curl -sSL https://github.com/go-task/task/releases/latest/download/task_linux_amd64.tar.gz | tar -xz -C ~/.local/bin task
 
-# Install prereqs:
+# Install Docker & Friends:
 sudo apt install -y docker.io qemu-system-x86 ovmf
 ```
 
@@ -59,7 +56,7 @@ sudo apt install -y docker.io qemu-system-x86 ovmf
 
 ### Install / Live Desktop
 
-The live desktop is LXQt. To begin the install, launch the **Install Hobby Linux** shortcut. A network connection is required! The installer is `calamares` and uses some fish helper scripts. Follow the install (partition, users, etc.) prompts and reboot when complete.
+The live desktop is lxqt. To begin the install, launch the **Install Hobby Linux** shortcut. A network connection is required! The installer is `calamares` and uses some fish helper scripts. Follow the install (partition, users, etc.) prompts and reboot when complete.
 
 ---
 
