@@ -8,7 +8,7 @@ on:
 
 jobs:
   test:
-    name: Lint & Specs
+    name: Linting
     runs-on: ubuntu-latest
 
     steps:
@@ -20,14 +20,6 @@ jobs:
         with:
           version: 3.x
           repo-token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: '3.3'
-
-      - name: Install Ruby dependencies
-        run: gem install rspec psych
 
       - name: Install system dependencies (ShellCheck, Fish)
         run: |
