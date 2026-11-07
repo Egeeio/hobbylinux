@@ -11,11 +11,6 @@ tasks:
     cmds:
       - fish scripts/vm-run.fish {{.ISO}}
 
-  cloud:
-    desc: 'Run the cloud QCOW2 in QEMU with SSH forwarded on localhost:2222'
-    cmds:
-      - fish scripts/vm-run-cloud.fish {{.IMAGE}}
-
   clean:
     desc: 'Delete vm dir'
     cmds:

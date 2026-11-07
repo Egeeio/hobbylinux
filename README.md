@@ -69,10 +69,7 @@ The live desktop is LXQt. To begin the install, launch the **Install Hobby Linux
    ```sh
    task vm:run
    ```
-
-2. **Hobby Linux Bootstrap:**
-
-   An automated setup script opens after login and lets you pick from a list of package groups (Gaming, HTPC, Content Creation, Development). The bootstrap script lets you pre-install groups of packages and flatpaks and runs only at the very first boot.
+   *(Or remove the installation USB if installing to bare-metal hardware).*
 
 ---
 
