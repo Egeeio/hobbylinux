@@ -1,6 +1,6 @@
 #!/usr/bin/fish
 
-source lib/hobbylib.fish
+source (status dirname)/../lib/hobbylib.fish
 
 log_info "Running linters..."
 
