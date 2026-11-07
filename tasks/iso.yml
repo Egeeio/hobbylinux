@@ -1,0 +1,19 @@
+version: '3'
+
+tasks:
+  build:
+    desc: 'Build Hobby Linux desktop live ISO'
+    cmds:
+      - fish scripts/iso-build.fish {{.VERSION}}
+
+  clean:
+    desc: 'Clean build directory and cached configs'
+    cmds:
+      - rm -rf build/
+      - rm -f config/binary config/bootstrap config/chroot config/common config/source
+
+  rebuild:
+    desc: 'Clean build directory and rebuild the ISO'
+    cmds:
+      - task: clean
+      - task: build
