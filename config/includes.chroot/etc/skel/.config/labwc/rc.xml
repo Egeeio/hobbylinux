@@ -21,12 +21,17 @@
   <keyboard>
     <keybind key="W-t">
       <action name="Execute">
-        <command>qterminal</command>
+        <command>kitty</command>
       </action>
     </keybind>
     <keybind key="C-A-t">
       <action name="Execute">
-        <command>qterminal</command>
+        <command>kitty</command>
+      </action>
+    </keybind>
+    <keybind key="W-l">
+      <action name="Execute">
+        <command>swaylock</command>
       </action>
     </keybind>
   </keyboard>

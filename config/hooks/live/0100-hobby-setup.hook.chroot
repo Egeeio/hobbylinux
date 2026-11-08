@@ -34,12 +34,13 @@ log_debug "Ensuring /etc/sudoers.d directory and permissions..."
 mkdir -p /etc/sudoers.d
 chmod 750 /etc/sudoers.d
 
-log_debug "Configuring default terminal to qterminal..."
-if test -f /usr/bin/qterminal
-    update-alternatives --set x-terminal-emulator /usr/bin/qterminal 2>/dev/null || true
+log_debug "Configuring default terminal to kitty..."
+if test -f /usr/bin/kitty
+    update-alternatives --set x-terminal-emulator /usr/bin/kitty 2>/dev/null || true
     if not test -f /usr/bin/xterm
-        ln -sf /usr/bin/qterminal /usr/local/bin/xterm
+        ln -sf /usr/bin/kitty /usr/local/bin/xterm
     end
+    rm -f /usr/share/applications/qterminal.desktop /usr/share/applications/qterminal-drop.desktop 2>/dev/null || true
 end
 
 log_debug "Configuring passwordless sudo for live user..."

@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Labwc
+Comment=Wayland compositor (LXQt)
+Exec=/usr/local/bin/startlxqtwayland
+TryExec=labwc
+Type=Application
+DesktopNames=LXQt;labwc;wlroots
+NoDisplay=true
+Hidden=true

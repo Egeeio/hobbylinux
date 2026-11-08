@@ -1,0 +1,7 @@
+[Desktop Entry]
+Name=LXQt (Wayland)
+Comment=Lightweight Qt Desktop Environment on Wayland with Labwc
+Exec=/usr/local/bin/startlxqtwayland
+TryExec=labwc
+Type=Application
+DesktopNames=LXQt;labwc;wlroots

@@ -39,3 +39,8 @@ Pin-Priority: -1
 Package: sddm-theme-debian-breeze
 Pin: release *
 Pin-Priority: -1
+
+# Blacklist QTerminal completely
+Package: qterminal*
+Pin: release *
+Pin-Priority: -1
