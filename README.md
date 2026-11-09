@@ -1,39 +1,22 @@
 # Hobby Linux
 
-**Hobby Linux** is a Linux distribution built atop Debian Testing (Trixie) with backports enabled. It sports a lightweight lxqt desktop with openbox, modern system plumbing, and defaults for tinkerers.
-
-It’s called Hobby Linux because it lets you explore the machinations of Debian’s `live-build` ecosystem and Calamares installer with your own personal hobby operating system.
-
----
-
-### What Makes Hobby Kinda Interesting
-
-* **Default Shell:** `fish` is the default login and interactive shell out of the box.
-* **Package Management:** `nala` is the default package manager frontend, with `apt` and `apt-get` aliased to `nala`.
-* **Automated Maintenance:** Weekly background online auto-upgrades via tuned `unattended-upgrades` tracking Debian Testing with automatic dependency cleanup.
-* **Internal Tunings:**
-  * **sudo:** `sudo-rs` symlinked as default
-  * **Networking:** `NetworkManager` w/`iwd` & `systemd-resolved`
-  * **Audio:** `pipewire` with WirePlumber
-  * **Memory:** `systemd-zram-generator` w/zstd
-  * **Drivers:** Microcodes, non-free firmwares, and modern filesystem utilities pre-installed
-* **Desktop & Boot:** Lightweight lxqt desktop with Openbox, UEFI boot with graphical GRUB and Plymouth spinner-splash, and a streamlined Calamares installer.
+**Hobby Linux** is a Linux distribution built atop Debian Testing (Trixie) with backports enabled. It sports a lightweight lxqt desktop on wayland via labwc, modern system plumbing, and defaults for tinkerers.
 
 ---
 
 ## Installation & Workflow
 
-Hobby uses [`task`](https://taskfile.dev/) as the entry point to build a bootable ISO inside an isolated Docker container and spin up a local virtual machine with QEMU.
+Hobby uses [`task`](https://taskfile.dev/) as the entry point to build a bootable iso inside an isolated docker container and spin up a local virtual machine with qemu
 
 ### Prerequisites
 
 ```sh
-# Go Get Task (go-task):
+# Install Task:
 mkdir -p ~/.local/bin
 curl -sSL https://github.com/go-task/task/releases/latest/download/task_linux_amd64.tar.gz | tar -xz -C ~/.local/bin task
 
-# Install Docker & Friends:
-sudo apt install -y docker.io qemu-system-x86 ovmf
+# Install Docker:
+sudo apt install -y docker.io
 ```
 
 ---
@@ -44,33 +27,57 @@ sudo apt install -y docker.io qemu-system-x86 ovmf
    ```sh
    task iso:build
    ```
-   Spins up a Docker container running Debian Trixie with `live-build`, downloads packages, applies customizations, and writes a bootable image to `build/hobbylinux-*.iso`. Takes about ~8 minutes to run.
+   Uses a docker container running debian trixie with `live-build`, downloads packages, applies customizations, and writes a bootable image to `build/hobbylinux-*.iso`. ~8 minutes to run
 
-2. **_Run_ the live ISO in QEMU:**
+2. **_Run_ the live ISO:**
+
+   Use an [image writer](https://flathub.org/en/apps/search?q=iso) to burn the iso onto a usb and install it on hardware. Or test it with qemu:
+
    ```sh
-   task vm:run
+   # Install qemu:
+   sudo apt install -y qemu-system-x86 ovmf
+
+   # Launch vm with iso
+   task vm:iso
    ```
-   Launches QEMU in UEFI mode with KVM acceleration. Auto-provisions a virtual test disk (`vm/hobbylinux-test.qcow2`), UEFI NVRAM, and boots the newly built ISO.
 
 ---
 
-### Install / Live Desktop
+### Install
 
-The live desktop is lxqt. To begin the install, launch the **Install Hobby Linux** shortcut. A network connection is required! The installer is `calamares` and uses some fish helper scripts. Follow the install (partition, users, etc.) prompts and reboot when complete.
+Desktop environment is [lxqt](https://lxqt-project.org). To begin, launch the **Install Hobby Linux** shortcut. A network connection is required! The installer is [calamares](https://calamares.io) and uses some helper scripts. Follow the install (partition, users, etc.) prompts and reboot when complete.
 
 ---
 
-### Post-Install
+### Boot
 
 1. **Boot into the Installed System:**
    ```sh
    task vm:run
    ```
-   *(Or remove the installation USB if installing to bare-metal hardware).*
+
+2. **Use It**
+  - Log in with your installed user
+  - Enjoy your new os
+
+---
+
+### What Makes Hobby Kinda Interesting
+
+* **Desktop Environment:** lxqt w/labwc wayland compositor
+* **Default Shell:** `fish` login and interactive shell out of the box
+* **Package Management:** `nala` package manager frontend
+* **Automated Maintenance:** Weekly background online auto-upgrades & cleanups via `unattended-upgrades`
+* **Internal Tunings:**
+  * **sudo:** `sudo-rs` symlinked as default
+  * **Networking:** `NetworkManager` w/`iwd` & `systemd-resolved`
+  * **Audio:** `pipewire` with WirePlumber
+  * **Memory:** `systemd-zram-generator` w/zstd
+  * **Drivers:** Pre-installed microcodes, non-free firmwares, and filesystem utilities
 
 ---
 
 ### Artwork & License
 
-* **Code & Configuration:** Licensed under the [MIT License](LICENSE).
-* **Artwork & Branding:** All original artwork, wallpapers, and branding assets belong to **Egee** (All rights reserved).
+* **Code & Configuration:** Licensed under the [MIT License](LICENSE)
+* **Artwork & Branding:** All original artwork, wallpapers, and branding assets belong to **Egee** (All rights reserved)
