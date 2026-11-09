@@ -2,9 +2,9 @@
 
 **Hobby Linux** is a Linux distribution built atop Debian Testing (Trixie) with backports enabled. It sports a lightweight lxqt desktop on wayland via labwc, modern system plumbing, and defaults for tinkerers.
 
----
+![Hobby Linux](.github/assets/hobbylinux.webp)
 
-## Installation & Workflow
+## Installation
 
 Hobby uses [`task`](https://taskfile.dev/) as the entry point to build a bootable iso inside an isolated docker container and spin up a local virtual machine with qemu
 
