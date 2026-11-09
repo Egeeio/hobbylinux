@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=Kanshi
+Comment=Dynamic display configuration for Wayland
+Exec=kanshi
+OnlyShowIn=LXQt;labwc;
+NoDisplay=true

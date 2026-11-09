@@ -2,14 +2,14 @@ version: '3'
 
 tasks:
   run:
-    desc: 'Run the live ISO in QEMU (alias for vm:iso)'
+    desc: 'Boot the local VM disk in QEMU (no ISO attached)'
     cmds:
-      - task: iso
+      - fish scripts/vm-run.fish
 
   iso:
-    desc: 'Run the live ISO in QEMU (optional: ISO=path/to.iso)'
+    desc: 'Boot the live ISO in QEMU (default: latest in build/, optional: ISO=path/to.iso)'
     cmds:
-      - fish scripts/vm-run.fish {{.ISO}}
+      - fish scripts/vm-run.fish --iso {{.ISO}}
 
   clean:
     desc: 'Delete vm dir'

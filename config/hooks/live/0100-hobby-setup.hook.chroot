@@ -43,6 +43,12 @@ if test -f /usr/bin/kitty
     rm -f /usr/share/applications/qterminal.desktop /usr/share/applications/qterminal-drop.desktop 2>/dev/null || true
 end
 
+log_debug "Configuring default browser to chromium..."
+if test -f /usr/bin/chromium
+    update-alternatives --set x-www-browser /usr/bin/chromium 2>/dev/null || true
+    update-alternatives --set gnome-www-browser /usr/bin/chromium 2>/dev/null || true
+end
+
 log_debug "Configuring passwordless sudo for live user..."
 echo 'hobby ALL=(ALL:ALL) NOPASSWD: ALL' > /etc/sudoers.d/hobby
 chmod 440 /etc/sudoers.d/hobby
@@ -91,6 +97,9 @@ log_debug "Pruning documentation, man pages, and info files to save space..."
 find /usr/share/doc -type f -not -name "copyright*" -delete 2>/dev/null || true
 find /usr/share/doc -type d -empty -delete 2>/dev/null || true
 rm -rf /usr/share/man/* /usr/share/info/* /usr/share/groff/* /usr/share/lintian/*
+
+log_debug "Purging unneeded packages (vim, avahi, rtkit, gnome-keyring, xscreensaver)..."
+apt-get purge -y vim vim-tiny vim-common vim-runtime avahi-daemon avahi-utils avahi-autoipd rtkit gnome-keyring gnome-keyring-pkcs11 libpam-gnome-keyring 'xscreensaver*' 2>/dev/null || true
 
 log_debug "Autoremoving orphaned packages..."
 nala autoremove -y --purge

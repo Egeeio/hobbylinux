@@ -5,6 +5,7 @@ ca-certificates
 calamares
 calamares-settings-debian
 cifs-utils
+chromium
 console-setup
 cryptsetup
 cryptsetup-initramfs
@@ -49,8 +50,8 @@ intel-media-va-driver-non-free
 intel-microcode
 iwd
 kitty
+kanshi
 labwc
-libnss-mdns
 linux-image-amd64
 lximage-qt
 lxqt-archiver
@@ -78,6 +79,7 @@ nm-tray
 ntfs-3g
 openssh-server
 openvpn
+papirus-icon-theme
 pavucontrol-qt
 pcmanfm-qt
 pipewire
@@ -87,6 +89,7 @@ plymouth
 plymouth-themes
 power-profiles-daemon
 qpdfview
+qps
 qt6-wayland
 qtwayland5
 qtxdg-tools
@@ -114,6 +117,5 @@ xdg-desktop-portal-lxqt
 xdg-desktop-portal-wlr
 xdg-utils
 xfsprogs
-xserver-xorg
 xwayland
 zstd

@@ -1,5 +1,0 @@
-#!/bin/sh
-# Labwc autostart - launch LXQt session if not already running
-if ! pgrep -x lxqt-session >/dev/null 2>&1; then
-    lxqt-session &
-fi

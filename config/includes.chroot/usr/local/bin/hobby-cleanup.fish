@@ -7,6 +7,14 @@ log_debug "Removing installer desktop shortcuts and live session permissions..."
 rm -f /usr/share/applications/calamares-debian-installer.desktop
 rm -f /usr/share/applications/calamares-install-debian.desktop
 rm -f /usr/share/applications/install-debian.desktop
+rm -f /etc/skel/Desktop/calamares-install-debian.desktop
+rm -f /etc/skel/Desktop/calamares-debian-installer.desktop
+rm -f /etc/skel/Desktop/install-debian.desktop
+for user_desktop in /home/*/Desktop
+    rm -f "$user_desktop/calamares-install-debian.desktop"
+    rm -f "$user_desktop/calamares-debian-installer.desktop"
+    rm -f "$user_desktop/install-debian.desktop"
+end
 rm -f /etc/sudoers.d/hobby
 rm -f /etc/polkit-1/rules.d/49-nopasswd_global.rules
 rm -f /etc/sddm.conf.d/autologin.conf

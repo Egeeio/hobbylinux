@@ -7,6 +7,26 @@ Package: rtkit
 Pin: release *
 Pin-Priority: -1
 
+# Blacklist vi/vim (nano and featherpad are default)
+Package: vim*
+Pin: release *
+Pin-Priority: -1
+
+# Blacklist avahi
+Package: avahi*
+Pin: release *
+Pin-Priority: -1
+
+# Blacklist gnome-keyring
+Package: gnome-keyring*
+Pin: release *
+Pin-Priority: -1
+
+# Blacklist xscreensaver (swaylock is used on Wayland)
+Package: xscreensaver*
+Pin: release *
+Pin-Priority: -1
+
 # Blacklist Plasma / KDE desktop components from being pulled
 Package: plasma-desktop
 Pin: release *
