@@ -14,22 +14,23 @@ Hobby uses [`task`](https://taskfile.dev/) as the entry point to build a bootabl
 # Install Task:
 mkdir -p ~/.local/bin
 curl -sSL https://github.com/go-task/task/releases/latest/download/task_linux_amd64.tar.gz | tar -xz -C ~/.local/bin task
-
-# Install Docker:
-sudo apt install -y docker.io
 ```
 
 ---
 
 ### Pre-Install
 
-1. **_Build_ the ISO:**
+1. _Build_ the iso:
    ```sh
+   # Install Docker:
+   sudo apt install -y docker.io
+   
+   # Build it
    task iso:build
    ```
    Uses a docker container running debian trixie with `live-build`, downloads packages, applies customizations, and writes a bootable image to `build/hobbylinux-*.iso`. ~8 minutes to run
 
-2. **_Run_ the live ISO:**
+2. Run the live iso:
 
    Use an [image writer](https://flathub.org/en/apps/search?q=iso) to burn the iso onto a usb and install it on hardware. Or test it with qemu:
 
@@ -45,13 +46,15 @@ sudo apt install -y docker.io
 
 ### Install
 
+![Hobby Linux](.github/assets/hobbyinstall.webp)
+
 Desktop environment is [lxqt](https://lxqt-project.org). To begin, launch the **Install Hobby Linux** shortcut. A network connection is required! The installer is [calamares](https://calamares.io) and uses some helper scripts. Follow the install (partition, users, etc.) prompts and reboot when complete.
 
 ---
 
 ### Boot
 
-1. **Boot into the Installed System:**
+1. **Boot it:**
    ```sh
    task vm:run
    ```
@@ -65,9 +68,9 @@ Desktop environment is [lxqt](https://lxqt-project.org). To begin, launch the **
 ### What Makes Hobby Kinda Interesting
 
 * **Desktop Environment:** lxqt w/labwc wayland compositor
-* **Default Shell:** `fish` login and interactive shell out of the box
-* **Package Management:** `nala` package manager frontend
-* **Automated Maintenance:** Weekly background online auto-upgrades & cleanups via `unattended-upgrades`
+* **Default Shell:** [`fish`](https://fishshell.com) login and interactive shell out of the box
+* **Package Management:** [`nala`](https://github.com/volitank/nala) package manager frontend
+* **Automated Maintenance:** weekly background online auto-upgrades & cleanups via `unattended-upgrades`
 * **Internal Tunings:**
   * **sudo:** `sudo-rs` symlinked as default
   * **Networking:** `NetworkManager` w/`iwd` & `systemd-resolved`
